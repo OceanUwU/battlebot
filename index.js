@@ -8,7 +8,7 @@ var commands = requireDir('interactions/commands');
 var buttons = requireDir('interactions/buttons');
 var selectMenus = requireDir('interactions/selectMenus');
 
-const registerCommands = async guild => {try {await (await bot.guilds.fetch(guild.id)).commands.set(Object.values(commands))} catch {}};
+const registerCommands = async guild => await (await bot.guilds.fetch(guild.id)).commands.set(Object.values(commands));
 
 bot.once('ready', async () => {
 	console.log('Connected, registering commands...');
