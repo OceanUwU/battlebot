@@ -14,8 +14,20 @@ module.exports = {
       user: {
         type: Sequelize.STRING
       },
+      colour1: {
+        type: Sequelize.STRING
+      },
+      colour2: {
+        type: Sequelize.STRING
+      },
       alive: {
         type: Sequelize.BOOLEAN
+      },
+      playerSelection: {
+        type: Sequelize.INTEGER
+      },
+      deathTime: {
+        type: Sequelize.INTEGER
       },
       x: {
         type: Sequelize.INTEGER

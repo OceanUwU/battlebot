@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   Player.init({
     game: DataTypes.INTEGER,
     user: DataTypes.STRING,
+    colour1: DataTypes.STRING,
+    colour2: DataTypes.STRING,
     alive: DataTypes.BOOLEAN,
+    playerSelection: DataTypes.INTEGER,
+    deathTime: DataTypes.INTEGER,
     x: DataTypes.INTEGER,
     y: DataTypes.INTEGER,
     vote: DataTypes.INTEGER,

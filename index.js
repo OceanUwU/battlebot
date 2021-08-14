@@ -3,6 +3,7 @@ const cfg = require('./cfg.json');
 const requireDir = require('require-dir');
 
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+module.exports = bot;
 var commands = requireDir('interactions/commands');
 var buttons = requireDir('interactions/buttons');
 var selectMenus = requireDir('interactions/selectMenus');
@@ -19,28 +20,39 @@ bot.on('interactionCreate', async interaction => {
 		if (!commands.hasOwnProperty(interaction.commandName)) return;
 	
 		try {
-			commands[interaction.commandName].execute(interaction);
+			await commands[interaction.commandName].execute(interaction);
 		} catch (error) {
-			console.error(error);
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+			console.log(error);
+			try {
+				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+			} catch {}
 		}
 	} else if (interaction.isButton()) {
-		if (!buttons.hasOwnProperty(interaction.customId)) return;
+		let num = Number(interaction.customId[interaction.customId.length-1]);
+		let id = Number.isNaN(num) ? interaction.customId : interaction.customId.slice(0, -1);
+		if (!buttons.hasOwnProperty(id)) return;
 	
 		try {
-			buttons[interaction.customId](interaction);
+			if (Number.isNaN(num))
+				await buttons[id](interaction);
+			else
+				await buttons[id](interaction, num);
 		} catch (error) {
-			console.error(error);
-			await interaction.reply({ content: 'There was an error while trying to deal with this button press!', ephemeral: true });
+			console.log(error);
+			try {
+				await interaction.reply({ content: 'There was an error while trying to deal with this button press!', ephemeral: true });
+			} catch {}
 		}
 	} else if (interaction.isSelectMenu()) {
 		if (!selectMenus.hasOwnProperty(interaction.customId)) return;
 	
 		try {
-			selectMenus[interaction.customId](interaction);
+			await selectMenus[interaction.customId](interaction);
 		} catch (error) {
-			console.error(error);
-			await interaction.reply({ content: 'There was an error while trying to deal with this selection!', ephemeral: true });
+			console.log(error);
+			try {
+				await interaction.reply({ content: 'There was an error while trying to deal with this selection!', ephemeral: true });
+			} catch {}
 		}
 	}
 });
