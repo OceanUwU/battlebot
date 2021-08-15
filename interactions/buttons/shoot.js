@@ -31,7 +31,7 @@ module.exports = async interaction => {
 
     //end game if needed
     if ((await db.Player.count({where: {game: game.id, alive: true}})) <= 1) {
-        let placings = [player, ...await db.Player.findAll({order: [['deathTime', 'DESC']], where: {alive: false}})]
+        let placings = [player, ...await db.Player.findAll({order: [['deathTime', 'ASC']], where: {alive: false}})]
         await log(game, `GAME OVER! <@${player.user}> WON! They had ${player.actions-cost+actionsAcquired}AP left over.\n\nFinal standings:${placings.map((p,i) => `\n${i+1}: <@${p.user}>`).join('')}\n\nFinal board:`);
         //delete game
         await db.Player.destroy({where: {game: game.id}});
