@@ -11,12 +11,12 @@ module.exports = async interaction => {
     let game = await db.Game.findOne({where: {setupChannel: interaction.channelId}});
     if (!game)
         return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
-
-    await interaction.deferReply();
-
     let players = await db.Player.findAll({where: {game: game.id}});
     if (players.length < 3 && !cfg.dev)
         return interaction.reply({content: 'You need at least 3 players to play!', ephemeral: true});
+
+    await interaction.deferReply(); //show loading message
+
     let locations = [];
     players.forEach(async player => {
         let loc;
