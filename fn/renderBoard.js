@@ -2,6 +2,8 @@ const db = require.main.require('./models');
 const { createCanvas, loadImage } = require('canvas');
 const bot = require('../');
 
+const backgroundColor = '#36393f';
+const textColor = '#ffffff';
 const squareSize = 100;
 const gridlineSize = 5;
 const fullSquareSize = squareSize+gridlineSize;
@@ -22,7 +24,7 @@ async function render(game, zoomPlayer) {
     let ctx = canvas.getContext('2d');
 
     //background
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     //draw logo
@@ -32,7 +34,7 @@ async function render(game, zoomPlayer) {
     ctx.font = `${squareSize*0.7}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = textColor;
     for (let x = 0; x <= boardWidth; x++) { //vertical grid lines
         ctx.fillRect(squareSize+(fullSquareSize*x), squareSize, gridlineSize, fullSquareSize*boardHeight+gridlineSize);
         ctx.fillText(rankNames[x], fullSquareSize*(x+1)+(squareSize/2), squareSize/2);
@@ -46,7 +48,7 @@ async function render(game, zoomPlayer) {
     ctx.font = `${squareSize*0.3}px Arial`;
     for (let x = 0; x < boardWidth; x++) {
         for (let y = 0; y < boardWidth; y++) {
-            ctx.fillStyle = '#cccccc';
+            ctx.fillStyle = textColor+'88';
             ctx.fillText(`${rankNames[x]}${y+1}`, fullSquareSize*(x+1)+(squareSize/2), fullSquareSize*(y+1)+(squareSize/2));
         }
     }

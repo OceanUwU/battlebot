@@ -21,7 +21,7 @@ module.exports = {
             let votes = await getVotes(game, player);
             let received = 1 + Math.floor(votes/votesPerAction);
             await db.Player.update({actions: player.actions+received}, {where: {id: player.id}});
-            logging += `\n<@${player.user}>: ${received} AP (${votes} votes)`;
+            logging += `\n<@${player.user}>: +${received} AP (${votes} votes)`;
         }
         await log(game, logging, false);
         await interaction.editReply({content: 'Successfully distributed AP.'});
