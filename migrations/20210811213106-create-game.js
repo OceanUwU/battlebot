@@ -29,12 +29,6 @@ module.exports = {
       joinMenu: {
         type: Sequelize.STRING
       },
-      playerRole: {
-        type: Sequelize.STRING
-      },
-      juryRole: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

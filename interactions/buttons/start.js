@@ -34,23 +34,13 @@ module.exports = async interaction => {
         res();
     })));
 
-    let name = 'dd-';
-    for (let i = 0; i < 5; i++)
-        name += alphabet[Math.floor(Math.random() * alphabet.length)];
-    let playerRole = await interaction.guild.roles.create({name: name+'-player'});
-    await Promise.all(players.map(async player => new Promise(async res => res(await interaction.guild.members.fetch(player.user))?.roles.add(playerRole))));
-    let juryRole = await interaction.guild.roles.create({name: name+'-jury'});
-
-
     await db.Game.update({
         started: true,
         nextPoint: Date.now(),
-        playerRole: playerRole.id,
-        juryRole: juryRole.id,
     }, {where: {id: game.id}});
 
     await log(await db.Game.findOne({where: {id: game.id}}), 'The game has begun!');
-    await interaction.channel.send({content: `<@&${playerRole.id}> Type **/c** to control your player here.`, components: [
+    await interaction.channel.send({content: `${players.map(p => `<@${p.user}>`).join(' ')}\nType **/c** to control your player here.`, components: [
         new MessageActionRow().addComponents(new MessageButton().setLabel('Rules').setStyle('LINK').setURL('https://devious-disposition.ocean.lol/'))
     ]});
     await interaction.editReply({content: 'Game started!'});

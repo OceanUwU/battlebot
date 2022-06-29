@@ -20,9 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     nextPoint: DataTypes.INTEGER,
     heartDrops: DataTypes.BOOLEAN,
     channel: DataTypes.STRING,
-    joinMenu: DataTypes.STRING,
-    playerRole: DataTypes.STRING,
-    juryRole: DataTypes.STRING
+    joinMenu: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Game',

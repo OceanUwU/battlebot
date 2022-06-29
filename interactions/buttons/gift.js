@@ -26,11 +26,6 @@ module.exports = async (interaction, type) => {
     } else if (type == 1) { //health        
         await db.Player.update({health: player.health-1, alive: player.health > 1, deathTime: player.health == 1 ? Date.now() : null}, {where: {id: player.id}});
         await db.Player.update({health: gifting.health+1, alive: true, deathTime: null}, {where: {id: gifting.id}});
-        if (!gifting.alive) { //if reviving
-            let giftingMember = await interaction.guild.members.fetch(gifting.user);
-            await giftingMember.roles.remove(game.juryRole);
-            await giftingMember.roles.add(game.playerRole);
-        }
         log(game, `${interaction.user.username} GIFTed <@${gifting.user}> a heart.${gifting.alive ? '' : `\n<@${gifting.user}> was revived! They can no longer **/vote** as a jury member, but they can use **/c** again!`}`);
         if ((await db.Player.count({where: {game: game.id, alive: true}})) <= 1)
             await endGame(game);

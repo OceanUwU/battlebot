@@ -21,9 +21,6 @@ module.exports = async interaction => {
     await db.Player.update({actions: player.actions-cost+actionsAcquired}, {where: {id: player.id}});
     await db.Player.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? null : Date.now()}, {where: {id: shooting.id}});
     if (newHealth <= 0) {
-        let shootingMember = await interaction.guild.members.fetch(shooting.user);
-        await shootingMember.roles.remove(game.playerRole);
-        await shootingMember.roles.add(game.juryRole);
         await interaction.update(await controlCentre(game, await db.Player.findOne({where: {id: player.id}})));
         await interaction.user.send(`You killed <@${shooting.user}>! Their ${actionsAcquired} action points were transferred to you.`);
     } else
