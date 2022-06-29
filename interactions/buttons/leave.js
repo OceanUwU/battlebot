@@ -1,14 +1,17 @@
 const db = require.main.require('./models');
+const editPlayerList = require.main.require('./fn/editPlayerList.js');
 
 module.exports = async interaction => {
     if (interaction.message.content.includes(interaction.user.id)) {
-        let game = await db.Game.findOne({where: {setupChannel: interaction.channelId}});
+        let game = await db.Game.findOne({where: {channel: interaction.channelId}});
         if (!game)
             return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
+        if (game.started)
+            return interaction.reply({content: 'This game has already started.', ephemeral: true});
         await db.Player.destroy({where: {game: game.id, user: interaction.user.id}});
         //remove player from player list in message
-        await interaction.message.edit(interaction.message.content.slice(0, interaction.message.content.indexOf(interaction.user.id)-3)+interaction.message.content.slice(interaction.message.content.indexOf(interaction.user.id)+interaction.user.id.length+1));
-        await interaction.reply({content: 'You successfully left the game!', ephemeral: true});
+        await editPlayerList(game, interaction.message);
+        await interaction.reply({content: `<@${interaction.user.id}> left the game!`});
     } else
         await interaction.reply({content: 'You need to join the game to leave it!', ephemeral: true});
 };

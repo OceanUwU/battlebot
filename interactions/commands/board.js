@@ -1,5 +1,8 @@
+const imgbbUploader = require('imgbb-uploader');
 const db = require.main.require('./models');
+const renderBoard = require.main.require('./fn/renderBoard.js');
 const controlOnly = require.main.require('./fn/controlOnly.js');
+const cfg = require.main.require('./cfg.json');
 
 module.exports = {
     name: 'board',
@@ -7,9 +10,13 @@ module.exports = {
     async execute(interaction) {
         let game = await controlOnly(interaction);
         if (game == null) return;
-        let logChannel = await interaction.guild.channels.fetch(game.logChannel);
-        let msg = (await logChannel.messages.fetch({limit: 1})).first();
-        if (msg && msg.attachments.first())
-        await interaction.reply({content: msg.attachments.first().url, ephemeral: true});
+
+        await interaction.deferReply({ephemeral: true});
+        let img = await imgbbUploader({
+            apiKey: cfg.imgbbkey,
+            base64string: (await renderBoard(game)).toString('base64'),
+            expiration: 21600, //6 hours
+        });
+        await interaction.editReply({content: img.url});
     }
 };

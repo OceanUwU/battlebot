@@ -1,10 +1,13 @@
 const db = require.main.require('./models');
+const editPlayerList = require.main.require('./fn/editPlayerList.js');
 
 module.exports = async interaction => {
     if (!interaction.message.content.includes(interaction.user.id)) {
-        let game = await db.Game.findOne({where: {setupChannel: interaction.channelId}});
+        let game = await db.Game.findOne({where: {channel: interaction.channelId}});
         if (!game)
             return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
+        if (game.started)
+            return interaction.reply({content: 'This game has already started.', ephemeral: true});
         if ((interaction.message.content.match(/\n/g) || []).length >= 50)
             return interaction.reply({content: 'This game has 50 players! It\'s full!', ephemeral: true});
         await db.Player.create({
@@ -18,8 +21,8 @@ module.exports = async interaction => {
             colour2: ((1<<24)*(Math.random()+1)|0).toString(16).substr(1),
         });
         //add user to the player list in message
-        await interaction.message.edit(`${interaction.message.content}\n<@${interaction.user.id}>`);
-        await interaction.reply({content: 'You successfully joined the game!', ephemeral: true});
+        await editPlayerList(game, interaction.message);
+        await interaction.reply({content: `<@${interaction.user.id}> joined the game!`});
     } else
-        await interaction.reply({content: 'You can\'t join a game twice!', ephemeral: true});
+        await interaction.reply({content: 'You\'ve alreadt joined this game.', ephemeral: true});
 };

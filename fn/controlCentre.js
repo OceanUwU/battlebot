@@ -14,36 +14,43 @@ async function controlCentre(game, player) {
         content: `YOU HAVE ${player.actions} ACTION POINTS.\n${img.url}`,
         components: [
             new MessageActionRow()
-            .addComponents(
-                new MessageButton()
-                    .setCustomId('movemenu')
-                    .setLabel('MOVE (1)')
-                    .setStyle('PRIMARY'),
-            )
-            .addComponents(
-                new MessageButton()
-                    .setCustomId('shootmenu')
-                    .setLabel('SHOOT (1)')
-                    .setStyle('DANGER'),
-            )
-            .addComponents(
-                new MessageButton()
-                    .setCustomId('heal')
-                    .setLabel('HEAL (3)')
-                    .setStyle('SUCCESS'),
-            )
-            .addComponents(
-                new MessageButton()
-                    .setCustomId('upgrade')
-                    .setLabel('UPGRADE (3)')
-                    .setStyle('SUCCESS'),
-            )
-            .addComponents(
-                new MessageButton()
-                    .setCustomId('giftmenu')
-                    .setLabel('GIFT (0)')
-                    .setStyle('PRIMARY'),
-            ),
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('movemenu')
+                        .setLabel('MOVE (1)')
+                        .setStyle('PRIMARY'),
+                )
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('shootmenu')
+                        .setLabel('SHOOT (1)')
+                        .setStyle('DANGER'),
+                )
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('giftmenu')
+                        .setLabel('GIFT (0)')
+                        .setStyle('PRIMARY'),
+                ),
+            new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('heal')
+                        .setLabel('HEAL (3)')
+                        .setStyle('SUCCESS'),
+                )
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('upgrade')
+                        .setLabel('UPGRADE (3)')
+                        .setStyle('SUCCESS'),
+                )
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId('pushmenu')
+                        .setLabel('PUSH (1)')
+                        .setStyle('SECONDARY'),
+                )
         ],
     };
 }

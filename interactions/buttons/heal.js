@@ -4,13 +4,10 @@ const controlCentre = require.main.require('./fn/controlCentre.js');
 const db = require.main.require('./models');
 
 const cost = 3;
-const maxHealth = 3;
 
 module.exports = async interaction => {
     let [game, player] = await aliveOnly(interaction);
     if (game == null) return;
-    if (player.health >= maxHealth)
-        return interaction.reply({content: `You\'re already at maximum health!`, ephemeral: true});
     if (player.actions < cost)
         return interaction.reply({content: `You need ${cost} AP to do that!`, ephemeral: true});
     await db.Player.update({health: player.health+1, actions: player.actions-cost}, {where: {id: player.id}});

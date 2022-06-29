@@ -7,12 +7,16 @@ module.exports = bot;
 var commands = requireDir('interactions/commands');
 var buttons = requireDir('interactions/buttons');
 var selectMenus = requireDir('interactions/selectMenus');
+var autoDistribution = require('./fn/autoDistribution');
 
 bot.once('ready', async () => {
 	console.log('Connected, registering commands...');
     await bot.application?.fetch();
     await (cfg.dev ? bot.guilds.cache.get(cfg.devServer) : bot.application)?.commands.set(Object.values(commands));
 	console.log('Ready!');
+
+	setInterval(autoDistribution, 60000);
+	autoDistribution();
 });
 
 bot.on('interactionCreate', async interaction => {
@@ -56,5 +60,6 @@ bot.on('interactionCreate', async interaction => {
 		}
 	}
 });
+
 
 bot.login(cfg.token);

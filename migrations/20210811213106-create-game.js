@@ -20,13 +20,13 @@ module.exports = {
       nextPoint: {
         type: Sequelize.INTEGER
       },
-      setupChannel: {
+      heartDrops: {
+        type: Sequelize.BOOLEAN
+      },
+      channel: {
         type: Sequelize.STRING
       },
-      commandChannel: {
-        type: Sequelize.STRING
-      },
-      logChannel: {
+      joinMenu: {
         type: Sequelize.STRING
       },
       playerRole: {

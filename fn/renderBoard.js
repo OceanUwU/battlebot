@@ -15,7 +15,7 @@ const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const gradientOpacity = '50'; //hex
 const images = {
     logo: loadImage('./docs/iconSmall.png'),
-    heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png')],
+    heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png'), loadImage('./heartdrop.png')],
 };
 
 async function render(game, zoomPlayer) {
@@ -80,10 +80,17 @@ async function render(game, zoomPlayer) {
         ctx.fillText(`r=${player.range}`, squareSize/2, squareSize*0.5);
 
         //draw player hearts
-        for (let i = 0; i < maxHearts; i++) {
-            let img = await images.heart[Number(i < player.health)];
-            ctx.drawImage(img, (squareSize/(maxHearts+1))*(i+1)-(heartSize/2), squareSize*0.7, heartSize, heartSize);
-        }
+        if (player.health > maxHearts) {
+            let img = await images.heart[1];
+            ctx.drawImage(img, (squareSize/(maxHearts+1))-(heartSize/2), squareSize*0.7, heartSize, heartSize);
+            ctx.font = `${squareSize*0.21}px Arial`;
+            ctx.fillStyle = '#000000';
+            ctx.fillText(`x${player.health}`, (squareSize/(maxHearts+1))*2.8-(heartSize/2), squareSize*0.8);
+        } else
+            for (let i = 0; i < maxHearts; i++) {
+                let img = await images.heart[Number(i < player.health)];
+                ctx.drawImage(img, (squareSize/(maxHearts+1))*(i+1)-(heartSize/2), squareSize*0.7, heartSize, heartSize);
+            }
 
         //draw death cross
         if (!player.alive) {
@@ -111,6 +118,15 @@ async function render(game, zoomPlayer) {
 
         ctx.restore();
     }
+
+    //draw hearts
+    let hearts = await db.Heart.findAll({where: {game: game.id}});
+    let img = await images.heart[2];
+    ctx.globalAlpha = 0.5;
+    for (let heart of hearts) {
+        ctx.drawImage(img, fullSquareSize*(heart.x+1), fullSquareSize*(heart.y+1), squareSize, squareSize);
+    }
+    ctx.globalAlpha = 1;
 
     if (zoomPlayer)
         canvas = zoom(canvas, zoomPlayer);

@@ -14,19 +14,19 @@ const translations = [
     [-1, 0],
 ];
 const directionChars = '↖↑↗→↘↓↙←';
-const createButtons = (game, player) => Promise.all(Array(8).fill(null).map(async (e,i) => new MessageButton()
-    .setCustomId(`move${i}`)
+const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).map(async (e,i) => new MessageButton()
+    .setCustomId(`${type}${i}`)
     .setLabel(directionChars[i])
     .setStyle('SECONDARY')
-    .setDisabled(!(await available(i, game, player)))));
+    .setDisabled(type == 'push' ? false : !(await available(i, game, player)))));
 
 async function available(dir, game, player) {
     let translation = translations[dir];
     return await tileAvailable(game, player.x+translation[0], player.y+translation[1]);
 }
 
-module.exports = async (interaction, game, player) => {
-    let buttons = await createButtons(game, player)
+module.exports = async (interaction, game, player, type) => {
+    let buttons = await createButtons(game, player, type)
     return {
         content: (await controlCentre(game, player)).content,
         components: [
