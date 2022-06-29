@@ -14,7 +14,7 @@ const heartSize = squareSize*0.22;
 const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const gradientOpacity = '50'; //hex
 const images = {
-    logo: loadImage('./docs/iconSmall.png'),
+    logo: loadImage('./docs/battlebot.png'),
     heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png'), loadImage('./heartdrop.png')],
 };
 
