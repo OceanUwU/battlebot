@@ -41,7 +41,7 @@ module.exports = async interaction => {
 
     await log(await db.Game.findOne({where: {id: game.id}}), 'The game has begun!');
     await interaction.channel.send({content: `${players.map(p => `<@${p.user}>`).join(' ')}\nType **/c** to control your player here.`, components: [
-        new MessageActionRow().addComponents(new MessageButton().setLabel('Rules').setStyle('LINK').setURL('https://devious-disposition.ocean.lol/'))
+        new MessageActionRow().addComponents(new MessageButton().setLabel('Rules').setStyle('LINK').setURL('https://battlebot.ocean.lol/'))
     ]});
     await interaction.editReply({content: 'Game started!'});
 };
