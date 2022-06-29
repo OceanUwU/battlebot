@@ -6,7 +6,7 @@ const editSettingsMessage = require('../../fn/editSettingsMessage');
 
 module.exports = {
     name: 'new',
-    description: 'Creates a new game of Devious Disposition.',
+    description: 'Creates a new Battlebot game.',
     async execute(interaction) {
         if (interaction.channel.type != 'GUILD_TEXT')
             return interaction.reply({content: 'This command must be used in a text channel.', ephemeral: true});

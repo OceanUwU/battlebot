@@ -1,4 +1,4 @@
-# devious-disposition (battlebot)
+# battlebot
 a discord bot based on [tank turn tactics](https://gdcvault.com/play/1017744)
 
 ## setup
