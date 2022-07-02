@@ -41,7 +41,7 @@ module.exports = async (interaction, direction) => {
     let hearted = false;
     if (await db.Heart.count({where: {game: game.id, x, y}}) > 0) {
         hearted = true;
-        await db.Player.update({health: pushing.health+1}, {where: {id: pushing.id}});
+        await db.Player.update({health: pushing.health+1, alive: true, deathTime: null}, {where: {id: pushing.id}});
         await db.Heart.destroy({where: {game: game.id, x ,y}});
     }
 
