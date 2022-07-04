@@ -7,5 +7,6 @@ module.exports = async game => {
     await log(game, `GAME OVER! <@${winner.user}> WON! They had ${winner.actions}AP left over.\n\nFinal standings:${placings.map((p,i) => `\n${i+1}: <@${p.user}>`).join('')}\n\nFinal board:`);
     //delete game
     await db.Player.destroy({where: {game: game.id}});
+    await db.Heart.destroy({where: {game: game.id}});
     await db.Game.destroy({where: {id: game.id}});
 }
