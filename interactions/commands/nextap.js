@@ -3,14 +3,11 @@ const pointRates = require('../../consts/pointRates');
 
 function formatTime(ms) {
     let secs = ms / 1000;
-    const h = Math.floor(secs / 3600);
+    const d = Math.floor(secs / 86400);
+    const h = Math.floor((secs / 3600) % 24);
     const m = Math.floor((secs % 3600) / 60);
     const s = Math.round(secs % 60);
-    return [
-      h,
-      m > 9 ? m : (h ? '0' + m : m || '0'),
-      s > 9 ? s : '0' + s
-    ].filter(Boolean).join(':');
+    return `${d > 0 ? `${d} days, ` : ''}${d > 0 || h > 0 ? `${h} hours, ` : ''}${d > 0 || h > 0 || m > 0 ? `${m} minutes and ` : ''}${d > 0 || h > 0 || m > 0 || s > 0 ? `${s} seconds` : ''}`;
 }
 
 module.exports = {
@@ -26,6 +23,6 @@ module.exports = {
         if (game.pointRate == 0)
             await interaction.reply({content: `AP is distributed manually, ask the mods`, ephemeral: true});
         else
-            await interaction.reply({content: `Interval: ${pointRates.find(pr => pr[1] == game.pointRate)[0]}\nNext AP: ${game.nextPoint - Date.now() < 0 ? 'less than a minute!' : formatTime(game.nextPoint - Date.now())}`});
+            await interaction.reply({content: `AP is distributed every ${pointRates.find(pr => pr[1] == game.pointRate)[0]}\nNext AP in ${game.nextPoint - Date.now() < 0 ? 'less than a minute!' : formatTime(game.nextPoint - Date.now())}`, ephemeral: true});
     }
 };
