@@ -6,7 +6,7 @@ const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const votesPerAction = 3;
 
 module.exports = async (game, interaction=null) => {
-    let players = await db.Player.findAll({where: {game: game.id, alive: true}});
+    let players = await db.Player.findAll({where: {game: game.id}});
     let logging = interaction == null ? 'AP distribution!\n' : `${interaction.user.username} distributed AP.\n`;
     for (let player of players) {
         let votes = await getVotes(game, player);
