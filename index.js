@@ -9,11 +9,15 @@ var buttons = requireDir('interactions/buttons');
 var selectMenus = requireDir('interactions/selectMenus');
 var autoDistribution = require('./fn/autoDistribution');
 
+bot.log = str => {
+	console.log(`BOT: ${str}`)
+};
+
 bot.once('ready', async () => {
-	console.log('Connected, registering commands...');
+	bot.log('Connected, registering commands...');
     await bot.application?.fetch();
     await (cfg.dev ? bot.guilds.cache.get(cfg.devServer) : bot.application)?.commands.set(Object.values(commands));
-	console.log('Ready!');
+	bot.log('Ready!');
 
 	setInterval(autoDistribution, 60000);
 	autoDistribution();
@@ -24,6 +28,7 @@ bot.on('interactionCreate', async interaction => {
 		if (!commands.hasOwnProperty(interaction.commandName)) return;
 	
 		try {
+			bot.log(`${interaction.user.username} ran /${interaction.commandName}`);
 			await commands[interaction.commandName].execute(interaction);
 		} catch (error) {
 			console.log(error);
@@ -37,6 +42,7 @@ bot.on('interactionCreate', async interaction => {
 		if (!buttons.hasOwnProperty(id)) return;
 	
 		try {
+			bot.log(`${interaction.user.username} pressed ${interaction.customId}`);
 			if (Number.isNaN(num))
 				await buttons[id](interaction);
 			else
@@ -51,6 +57,7 @@ bot.on('interactionCreate', async interaction => {
 		if (!selectMenus.hasOwnProperty(interaction.customId)) return;
 	
 		try {
+			bot.log(`${interaction.user.username} changed  the ${interaction.customId} selectmenu`);
 			await selectMenus[interaction.customId](interaction);
 		} catch (error) {
 			console.log(error);
