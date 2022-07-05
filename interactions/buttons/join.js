@@ -24,5 +24,5 @@ module.exports = async interaction => {
         await editPlayerList(game, interaction.message);
         await interaction.reply({content: `<@${interaction.user.id}> joined the game!`});
     } else
-        await interaction.reply({content: 'You\'ve alreadt joined this game.', ephemeral: true});
+        await interaction.reply({content: 'You\'ve already joined this game.', ephemeral: true});
 };
