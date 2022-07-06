@@ -8,7 +8,7 @@ const votesPerAction = 3;
 module.exports = async (game, interaction=null) => {
     let players = await db.Player.findAll({where: {game: game.id}});
     let logging = interaction == null ? 'AP distribution!\n' : `${interaction.user.username} distributed AP.\n`;
-    for (let player of players) {
+    for (let player of players.filter(p => p.alive)) {
         let votes = await getVotes(game, player);
         let received = 1 + Math.floor(votes/votesPerAction);
         await db.Player.update({actions: player.actions+received}, {where: {id: player.id}});
