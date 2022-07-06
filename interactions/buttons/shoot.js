@@ -16,6 +16,8 @@ module.exports = async interaction => {
         return interaction.reply({content: 'That player is not in range, or is already dead.', ephemeral: true});
     if (player.actions < cost)
         return interaction.reply({content: `You need ${cost} AP to shoot someone!`, ephemeral: true});
+    
+    await interaction.deferUpdate();
     let newHealth = shooting.health-1;
     let actionsAcquired = (newHealth <= 0) ? shooting.actions : 0;
     await db.Player.update({actions: player.actions-cost+actionsAcquired}, {where: {id: player.id}});
@@ -26,10 +28,10 @@ module.exports = async interaction => {
     if ((await db.Player.count({where: {game: game.id, alive: true}})) <= 1)
         await endGame(game);
     else if (newHealth <= 0) {
-        await interaction.update(await controlCentre(game, await db.Player.findOne({where: {id: player.id}})));
+        await interaction.editReply(await controlCentre(game, await db.Player.findOne({where: {id: player.id}})));
         await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name})! Their ${actionsAcquired} action points were transferred to you.`);
     } else
-        await interaction.update({content: (await controlCentre(game, await db.Player.findOne({where: {id: player.id}}))).content});
+        await interaction.editReply({content: (await controlCentre(game, await db.Player.findOne({where: {id: player.id}}))).content});
     
 
 };
