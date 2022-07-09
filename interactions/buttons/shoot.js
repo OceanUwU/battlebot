@@ -21,7 +21,7 @@ module.exports = async interaction => {
     let newHealth = shooting.health-1;
     let actionsAcquired = (newHealth <= 0) ? shooting.actions : 0;
     await db.Player.update({actions: player.actions-cost+actionsAcquired}, {where: {id: player.id}});
-    await db.Player.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? null : Date.now()}, {where: {id: shooting.id}});
+    await db.Player.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? Date.now() : null}, {where: {id: shooting.id}});
     await log(game, `${interaction.user.username} SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`);
     
     //end game if needed
