@@ -54,6 +54,7 @@ async function render(game, zoomPlayer) {
     }
 
     //draw players
+    await game.getChannel();
     let players = await db.Player.findAll({where: {game: game.id}});
     for (let player of players) {
         ctx.save();
@@ -69,10 +70,11 @@ async function render(game, zoomPlayer) {
         ctx.fillRect(0, 0, squareSize, squareSize);
 
         //write player name
-        let user = await bot.users.fetch(player.user);
-        ctx.font = `${squareSize*(1.25/user.username.length)}px Arial`;
+        player.game = game;
+        await player.getName();
+        ctx.font = `${Math.min(squareSize*0.4, squareSize*(1.25/player.name.length))}px Arial`;
         ctx.fillStyle = '#000000';
-        ctx.fillText(user.username, squareSize/2, squareSize*0.2);
+        ctx.fillText(player.name, squareSize/2, squareSize*0.2);
 
         //write player range
         ctx.font = `${squareSize*0.21}px Arial`;

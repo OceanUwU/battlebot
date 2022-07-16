@@ -22,14 +22,14 @@ module.exports = async interaction => {
     let actionsAcquired = (newHealth <= 0) ? shooting.actions : 0;
     await db.Player.update({actions: player.actions-cost+actionsAcquired}, {where: {id: player.id}});
     await db.Player.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? Date.now() : null}, {where: {id: shooting.id}});
-    await log(game, `${interaction.user.username} SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`);
+    await log(game, `<@${player.user}> SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`, true, [shooting.user]);
     
     //end game if needed
     if ((await db.Player.count({where: {game: game.id, alive: true}})) <= 1)
         await endGame(game);
     else if (newHealth <= 0) {
         await interaction.editReply(await controlCentre(game, await db.Player.findOne({where: {id: player.id}})));
-        await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name})! Their ${actionsAcquired} action points were transferred to you.`);
+        await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`);
     } else
         await interaction.editReply({content: (await controlCentre(game, await db.Player.findOne({where: {id: player.id}}))).content});
     

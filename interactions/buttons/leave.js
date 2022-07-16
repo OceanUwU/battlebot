@@ -11,7 +11,7 @@ module.exports = async interaction => {
         await db.Player.destroy({where: {game: game.id, user: interaction.user.id}});
         //remove player from player list in message
         await editPlayerList(game, interaction.message);
-        await interaction.reply({content: `<@${interaction.user.id}> left the game!`});
+        await interaction.reply({content: `<@${interaction.user.id}> left the game!`, allowedMentions: {users: []}});
     } else
         await interaction.reply({content: 'You need to join the game to leave it!', ephemeral: true});
 };

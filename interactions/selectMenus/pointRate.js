@@ -10,6 +10,6 @@ module.exports = async interaction => {
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to change this.', ephemeral: true});
     await db.Game.update({pointRate: Number(interaction.values[0])}, {where: {id: game.id}});
-    await interaction.reply({content: `<@${interaction.user.id}> changed the AP distribution interval to ${pointRates.find(pr => pr[1] == Number(interaction.values[0]))[0]}.`});
+    await interaction.reply({content: `<@${interaction.user.id}> changed the AP distribution interval to ${pointRates.find(pr => pr[1] == Number(interaction.values[0]))[0]}.`, allowedMentions: {users: []}});
     await editSettingsMessage(await db.Game.findOne({where: {id: game.id}}), interaction.message);
 };

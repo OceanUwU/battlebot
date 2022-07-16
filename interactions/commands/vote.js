@@ -11,15 +11,16 @@ module.exports = {
         if (game == null) return;
         await interaction.deferReply({ephemeral: true});
         let player = await db.Player.findOne({where: {game: game.id, user: interaction.user.id}});
-        if (player == null || player.alive)
-            return interaction.editReply({content: 'Only dead players may use this command!'});
+        if (player == null)
+            return interaction.editReply({content: 'Only players may use this command!'});
         let players = await db.Player.findAll({where: {game: game.id, alive: true}});
+        await game.getChannel();
         await Promise.all(players.map(async p => {
-            let user = await interaction.client.users.fetch(p.user);
-            p.name = user.username;
+            p.game = game;
+            await p.getName();
         }));
         await interaction.editReply({
-            content: `Your vote is currently: ${player.vote == null ? 'No one' : `<@${(await db.Player.findOne({where: {id: player.vote}})).user}>`}.`,
+            content: `${player.alive ? 'Setting your vote while alive will have no effect until you\'re dead.\n' : ''}Your vote is currently: ${player.vote == null ? 'No one' : `<@${(await db.Player.findOne({where: {id: player.vote}})).user}>`}.`,
             components: [
                 new MessageActionRow()
                     .addComponents(

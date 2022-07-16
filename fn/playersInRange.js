@@ -4,6 +4,7 @@ const bot = require('../');
 
 module.exports = async function(game, player) {
     //return all (other) players in range
+    await game.getChannel();
     let players = await db.Player.findAll({where: {
         game: game.id,
         [Op.not]: {
@@ -19,8 +20,8 @@ module.exports = async function(game, player) {
         },
     }});
     await Promise.all(players.map(async p => {
-        let user = await bot.users.fetch(p.user);
-        p.name = user.username;
+        p.game = game;
+        await p.getName();
     }));
     return players;
 };

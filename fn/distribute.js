@@ -25,5 +25,5 @@ module.exports = async (game, interaction=null) => {
             logging += `\n\nHeart spawned at ${rankNames[space[0]]}${space[1]+1}!`;
         }
     }
-    await log(game, logging);
+    await log(game, logging, true, players.map(p => p.user));
 };

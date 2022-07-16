@@ -29,3 +29,8 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+
+
+require('./game/getChannel');
+require('./player/getGame');
+require('./player/getName');

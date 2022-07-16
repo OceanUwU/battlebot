@@ -12,6 +12,6 @@ module.exports = async interaction => {
         return interaction.reply({content: `You need ${cost} AP to do that!`, ephemeral: true});
     await interaction.deferUpdate();
     await db.Player.update({health: player.health+1, actions: player.actions-cost}, {where: {id: player.id}});
-    await log(game, `${interaction.user.username} HEALed to ${player.health+1} hearts.`);
+    await log(game, `<@${interaction.user.username}> HEALed to ${player.health+1} hearts.`);
     await interaction.editReply(await controlCentre(game, await db.Player.findOne({where: {id: player.id}})));
 };

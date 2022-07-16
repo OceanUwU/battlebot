@@ -1,9 +1,9 @@
 const renderBoard = require('./renderBoard');
 const bot = require('../');
 
-async function log(game, text, showBoard=true) {
+async function log(game, text, showBoard=true, mentions=[]) {
     let channel = await bot.channels.fetch(game.channel);
-    await channel.send({content: text, files: showBoard ? [await renderBoard(game)] : []});
+    await channel.send({content: text, allowedMentions: {users: mentions}, files: showBoard ? [await renderBoard(game)] : []});
 }
 
 module.exports = log;
