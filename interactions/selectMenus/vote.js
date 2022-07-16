@@ -5,8 +5,8 @@ module.exports = async interaction => {
     let game = await controlOnly(interaction);
     if (game == null) return;
     let player = await db.Player.findOne({where: {game: game.id, user: interaction.user.id}});
-    if (player == null || player.alive)
-        return interaction.editReply({content: 'Only dead players may use this command!'});
+    if (player == null)
+        return interaction.reply({ephemeral: true, content: 'Only players may use this command!'});
 
     let vote = interaction.values[0];
     if (vote == 'null')
