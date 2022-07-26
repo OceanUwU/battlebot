@@ -23,6 +23,6 @@ module.exports = {
         if (game.pointRate == 0)
             await interaction.reply({content: `AP is distributed manually, ask the mods`, ephemeral: true});
         else
-            await interaction.reply({content: `AP is distributed every ${pointRates.find(pr => pr[1] == game.pointRate)[0]}\nNext AP in ${game.nextPoint - Date.now() < 0 ? 'less than a minute!' : formatTime(game.nextPoint - Date.now())}`, ephemeral: true});
+            await interaction.reply({content: `AP is distributed every ${pointRates.find(pr => pr[1] == game.pointRate)[0]}.\nNext AP at <t:${~-(game.nextPoint/1000)}:F>, which is <t:${~-(game.nextPoint/1000)}:R>.`, ephemeral: true});
     }
 };

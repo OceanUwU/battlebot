@@ -18,12 +18,12 @@
         <h2>RULES</h2>
         <ul>
             <li>All players start at a random location on the grid, and have 3 hearts and 1 action point (AP).</li>
-            <li>Every 24 hours (or 5 minutes, if you're playing a short game), everyone will receive 1 AP.</li>
+            <li>At a set interval, everyone will receive 1 AP.</li>
             <li>At any time you like, you can spend AP to perform any of the following actions:
                 <ul>
                     <li>MOVE to an adjacent, unoccupied square (1 AP).</li>
                     <li>SHOOT someone who is within your range (1 AP). Shooting someone removes 1 heart from their health.</li>
-                    <li>HEAL for one heart (3 AP). The amount of hearts you have cannot go above 3.</li>
+                    <li>HEAL for one heart (3 AP). There is no limit to your hearts.</li>
                     <li>UPGRADE your range (3 AP). There is no limit to your range.</li>
                     <li>GIFT a heart or action point to anyone within range (1 HP or 1 AP). This transfers one of your hearts or AP to the other player.</li>
                     <li>PUSH another player within your range in any direction (1 AP).</li>
@@ -33,7 +33,8 @@
             <li>At the start of the game, everyone has a range of 2. That is, they can SHOOT at or GIFT to anyone within 2 squares of them. Upgrading your shooting range increases this by 1 square each time.</li>
             <li>If a player is reduced to 0 hearts, then they are dead. Any action points the dead player had are transferred to the player who killed them. Dead players remain on the board and not removed.</li>
             <li>Dead players form a jury. Each day they vote on a player, and when AP is distributed, players get 1 extra AP for every 3 votes they get from the jury.</li>
-            <li>Gifting a heart to a dead player revives them with 1 heart and 0 AP.</li>
+            <li>Gifting a heart to a dead player revives them.</li>
+            <li>If you gift your last heart to someone, you will die, but your leftover AP will stay on your body, and will be usable if you are revived later.</li>
         </ul>
 
         <h3>ADDITIONAL NOTES</h3>
@@ -45,15 +46,22 @@
         <h2>INSTRUCTIONS</h2>
         <h3>STARTING A GAME</h3>
         <p><a href="https://discord.com/api/oauth2/authorize?client_id=869182949826904076&permissions=8192&scope=applications.commands%20bot">Add the bot</a> to your server and use <b>/new</b> to create a game.
-            <br />Everyone who wants to play should then click <b>Join</b> in the thread that gets created.
+            <br />Everyone who wants to play should then click <b>Join</b> on the message that gets created.
             <br />After everyone who wants to play has joined, a moderator should click the <b>Start</b> button in the same thread.</p>
         <h3>PLAYING</h3>
         <p>Use <b>/c</b> from within the control channel to access all controls for the game as an alive player.</p>
         <h3>PLAYING AS THE JURY</h3>
-        <p>If you're dead, use <b>/vote</b> from within the control channel to set your vote for this turn.</p>
+        <p>If you're dead, use <b>/vote</b> from within the control channel to set your vote.</p>
+        <p>You can also use <b>/vote</b> as a living player, in case you die while offline.</p>
         <h3>ADDITIONAL COMMANDS</h3>
-        <p>...</p>
-        
+        <p><b>/ap</b> tells you how much AP is on your body.</p>
+        <p><b>/nextap</b> tells you when the next AP will be distributed.</p>
+        <p><b>/list</b> lists the alive players, their location, and their status.</p>
+        <p><b>/finish</b> (admin only) ends the game, with anyone left alive tying for the win.</p>
+        <p><b>/help</b> links here.</p>
+        <p><b>/board</b> sends an image of the current board to you.</p>
+        <p><b>/sendboard</b> sends an image of the current board to the channel.</p>
+        <p><b>/showrange</b> sends an image of what you'd see in your controls to the channel.</p>
         <hr>
         <h2 style="text-align: center;"><a target="_blank" href="https://github.com/OceanUwU/battlebot">Source code</a></p>
     </body>
