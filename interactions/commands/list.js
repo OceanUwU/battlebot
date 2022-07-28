@@ -12,6 +12,6 @@ module.exports = {
 
         await interaction.deferReply({ephemeral: true});
         let players = await db.Player.findAll({where: {game: game.id}});
-        await interaction.editReply({content: `${players.length} players:\n\n${players.map(p => `${rankNames[p.x]}${p.y}: <@${p.user}> [\\♥=${p.health}|r=${p.range}]`).join('\n')}`, allowedMentions: {users: []}});
+        await interaction.editReply({content: `${players.length} players:\n\n${players.map(p => `${rankNames[p.x]}${p.y+1}: <@${p.user}> [\\♥=${p.health}|r=${p.range}]`).join('\n')}`, allowedMentions: {users: []}});
     }
 };
