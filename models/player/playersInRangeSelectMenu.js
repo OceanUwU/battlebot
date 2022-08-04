@@ -1,11 +1,10 @@
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
-const playersInRange = require('./playersInRange');
-const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const db = require('../');
 
-module.exports = async (game, player) => {
-    let options = (await playersInRange(game, player)).map(player => ({
+db.Player.prototype.playersInRangeSelectMenu = async function() {
+    let options = (await this.playersInRange()).map(player => ({
         label: player.name,
-        description: `${rankNames[player.x]}${player.y+1}`,
+        description: db.Game.tileName(player.x, player.y),
         value: String(player.id),
     }));
 

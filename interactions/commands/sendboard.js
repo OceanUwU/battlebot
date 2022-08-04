@@ -1,6 +1,5 @@
 const db = require.main.require('./models');
 const controlOnly = require.main.require('./fn/controlOnly.js');
-const renderBoard = require.main.require('./fn/renderBoard.js');
 
 module.exports = {
     name: 'sendboard',
@@ -9,6 +8,6 @@ module.exports = {
         let game = await controlOnly(interaction);
         if (game == null) return;
         await interaction.deferReply();
-        await interaction.editReply({files: [await renderBoard(game)]});
+        await interaction.editReply({files: [await game.renderBoard()]});
     }
 };

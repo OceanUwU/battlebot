@@ -1,7 +1,6 @@
 const db = require.main.require('./models');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const controlOnly = require('../../fn/controlOnly');
-const getVotes = require('../../fn/getVotes');
 
 module.exports = {
     name: 'vote',
@@ -10,10 +9,10 @@ module.exports = {
         let game = await controlOnly(interaction);
         if (game == null) return;
         await interaction.deferReply({ephemeral: true});
-        let player = await db.Player.findOne({where: {game: game.id, user: interaction.user.id}});
+        let player = await db.Player.findOne({where: {gameId: game.id, user: interaction.user.id}});
         if (player == null)
             return interaction.editReply({content: 'Only players may use this command!'});
-        let players = await db.Player.findAll({where: {game: game.id, alive: true}});
+        let players = await game.getPlayers({alive: true});
         await game.getChannel();
         await Promise.all(players.map(async p => {
             p.game = game;
@@ -34,7 +33,7 @@ module.exports = {
                             }])
                             .addOptions(await Promise.all(players.map(async p => ({
                                 label: p.name,
-                                description: `Votes: ${await getVotes(game, p)}`,
+                                description: `Votes: ${await p.getVotes()}`,
                                 value: String(p.id),
                             })))),
                     )

@@ -2,7 +2,6 @@ const { MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.
 const db = require.main.require('./models');
 const isMod = require('../../fn/isMod');
 const pointRates = require('../../consts/pointRates');
-const editSettingsMessage = require('../../fn/editSettingsMessage');
 
 module.exports = {
     name: 'new',
@@ -36,7 +35,14 @@ module.exports = {
             new MessageActionRow()
                 .addComponents(
                     new MessageSelectMenu()
-                        .setCustomId('pointRate')
+                        .setCustomId('boardsize')
+                        .setPlaceholder('Board size')
+                        .addOptions([[8, 8], [12, 8], [12, 12], [16, 12], [20, 12], [20, 16], [20, 20]].map(s => `${s[0]}x${s[1]}`).map(s => ({label: s, value: s}))),
+                ),
+            new MessageActionRow()
+                .addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId('pointrate')
                         .setPlaceholder('AP distribution interval')
                         .addOptions(pointRates.map(pr => ({
                             label: pr[0],
@@ -47,20 +53,17 @@ module.exports = {
             new MessageActionRow()
                 .addComponents(
                     new MessageSelectMenu()
-                        .setCustomId('heartDrops')
-                        .setPlaceholder('Heart drops')
-                        .addOptions([
-                            {
-                                label: 'On',
-                                description: `A collectable heart will drop on a random tile on the board every time AP is distributed.`,
-                                value: '1'
-                            },
-                            {
-                                label: 'Off',
-                                value: '0'
-                            },
-                        ]),
-                )
+                        .setCustomId('startinghearts')
+                        .setPlaceholder('Starting Hearts')
+                        .addOptions([1,2,3,4,5,6,7,8,9,10].map(n => String(n)).map(n => ({label: n, value: n}))),
+                ),
+            new MessageActionRow()
+                .addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId('startingrange')
+                        .setPlaceholder('Starting Range')
+                        .addOptions([0,1,2,3,4,5,6,7,8,9,10].map(n => String(n)).map(n => ({label: n, value: n}))),
+                ),
         ];
 		let startButton = new MessageActionRow()
             .addComponents(
@@ -74,20 +77,30 @@ module.exports = {
                     .setCustomId('abort')
                     .setLabel('Abort')
                     .setStyle('DANGER'),
+            )
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('heartdrops')
+                    .setLabel('Toggle Heart Drops')
+                    .setStyle('SECONDARY'),
             );
         let startMenu = await interaction.channel.send({content: 'Start the game here (only mods may use these)', components: [...options, startButton]});
 
-        await joinMenu.pin();
+        await joinMenu.pin().catch(e => {});
 
-        await db.Game.create({
+        let game = await db.Game.create({
             started: false,
             finished: false,
             joinMenu: joinMenu.id,
             pointRate: 0,
-            heartDrops: 0,
+            heartDrops: false,
+            startingHearts: 3,
+            startingRange: 2,
+            width: 20,
+            height: 12,
             channel: interaction.channelId,
         });
-        await editSettingsMessage(await db.Game.findOne({where: {channel: interaction.channelId}}), startMenu);
+        await game.editSettingsMessage(startMenu);
 
         return interaction.reply({content: 'Game created.', ephemeral: true});
     }

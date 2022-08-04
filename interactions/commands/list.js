@@ -1,7 +1,7 @@
 const db = require.main.require('./models');
 const controlOnly = require.main.require('./fn/controlOnly.js');
 
-const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const playerInfo = p => `${db.Game.tileName(p.x, p.y)}: <@${p.user}> [\\♥=${p.health}|r=${p.range}]`;
 
 module.exports = {
     name: 'list',
@@ -11,7 +11,8 @@ module.exports = {
         if (game == null) return;
 
         await interaction.deferReply({ephemeral: true});
-        let players = await db.Player.findAll({where: {game: game.id}});
-        await interaction.editReply({content: `${players.length} players:\n\n${players.map(p => `${rankNames[p.x]}${p.y+1}: <@${p.user}> [\\♥=${p.health}|r=${p.range}]`).join('\n')}`, allowedMentions: {users: []}});
+        let alive = await game.getPlayers({alive: true});
+        let dead = await game.getPlayers({alive: false});
+        await interaction.editReply({content: `__${alive.length + dead.length} players__:\n\n__${alive.length} alive__:\n${alive.map(playerInfo).join('\n')}\n\n__${dead.length} dead__:\n${dead.map(playerInfo).join('\n')}`, allowedMentions: {users: []}});
     }
 };

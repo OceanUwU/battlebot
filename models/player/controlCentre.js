@@ -1,17 +1,19 @@
+const db = require('../');
 const { MessageActionRow, MessageButton } = require('discord.js');
 const imgbbUploader = require('imgbb-uploader');
-const renderBoard = require.main.require('./fn/renderBoard.js');
 const cfg = require.main.require('./cfg.json');
 
-async function controlCentre(game, player) {
+db.Player.prototype.controlCentre = async function() {
+    await this.getGame();
+
     let img = await imgbbUploader({
         apiKey: cfg.imgbbkey,
-        base64string: (await renderBoard(game, player)).toString('base64'),
+        base64string: (await this.game.renderBoard(this)).toString('base64'),
         expiration: 21600, //6 hours
     });
 
     return {
-        content: `YOU HAVE ${player.actions} ACTION POINTS.\n${img.url}`,
+        content: `YOU HAVE ${this.actions} ACTION POINTS.\n${img.url}`,
         components: [
             new MessageActionRow()
                 .addComponents(
@@ -54,5 +56,3 @@ async function controlCentre(game, player) {
         ],
     };
 }
-
-module.exports = controlCentre;

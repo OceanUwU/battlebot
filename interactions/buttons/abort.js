@@ -7,7 +7,7 @@ module.exports = async interaction => {
     let game = await db.Game.findOne({where: {channel: interaction.channelId}});
     if (!game)
         return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
-    await db.Player.destroy({where: {game: (await db.Game.findOne({where: {channel: interaction.channelId}})).id}});
-    await db.Game.destroy({where: {id: (await db.Game.findOne({where: {channel: interaction.channelId}})).id}});
+    await db.Player.destroy({where: {gameId: game.id}});
+    await game.destroy();
     await interaction.reply(`<@${interaction.user.id}> aborted the game.`);
 };

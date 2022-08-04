@@ -1,6 +1,5 @@
 const { Op } = require("sequelize");
 const db = require.main.require('./models');
-const distribute = require.main.require('./fn/distribute');
 
 module.exports = async () => {
     let games = await db.Game.findAll({where: {
@@ -9,10 +8,8 @@ module.exports = async () => {
             [Op.lte]: Date.now(),
         },
     }});
-    games.forEach(async game => {
-        if (game.pointRate != 0) {
-            await distribute(game);
-            await db.Game.update({nextPoint: game.nextPoint + game.pointRate}, {where: {id: game.id}});
-        }
+    games.filter(game => game.pointRate != 0).forEach(async game => {
+        await game.distribute();
+        await game.increment('nextPoint', {by: game.pointRate});
     });
 };

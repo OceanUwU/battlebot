@@ -1,10 +1,8 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
 const db = require.main.require('./models');
-const alphabet = 'abcdefghijklmnopqrstuvwxyz012346789';
-const log = require.main.require('./fn/log.js');
 const cfg = require('../../cfg.json');
 const isMod = require('../../fn/isMod');
-//size: 20x12
+
 module.exports = async interaction => {
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to start the game.', ephemeral: true});
@@ -13,7 +11,7 @@ module.exports = async interaction => {
         return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
     if (game.started)
         return interaction.reply({content: 'This game has already started.', ephemeral: true});
-    let players = await db.Player.findAll({where: {game: game.id}});
+    let players = await game.getPlayers();
     if (players.length < 2 && !cfg.dev)
         return interaction.reply({content: 'You need at least 2 players to play!', ephemeral: true});
 
@@ -23,25 +21,19 @@ module.exports = async interaction => {
     await Promise.all(players.map(async player => new Promise(async res => {
         let loc;
         do {
-            loc = [Math.floor(Math.random() * 20), Math.floor(Math.random() * 12)];
+            loc = [Math.floor(Math.random() * game.width), Math.floor(Math.random() * game.height)];
         } while (locations.some(l => l[0] == loc[0] && l[1] == loc[1]))
         locations.push(loc);
 
-        await db.Player.update({
-            x: loc[0],
-            y: loc[1],
-        }, {where: {id: player.id}});
+        await player.update({x: loc[0], y: loc[1], health: game.startingHearts, range: game.startingRange});
         res();
     })));
 
-    await db.Game.update({
-        started: true,
-        nextPoint: Date.now(),
-    }, {where: {id: game.id}});
-
-    await log(await db.Game.findOne({where: {id: game.id}}), 'The game has begun!');
+    await game.update({started: true, nextPoint: Date.now()});
+    let startMessage = await game.log('The game has begun!');
     await interaction.channel.send({content: `${players.map(p => `<@${p.user}>`).join(' ')}\nType **/c** to control your player here.`, components: [
         new MessageActionRow().addComponents(new MessageButton().setLabel('Rules').setStyle('LINK').setURL('https://battlebot.ocean.lol/'))
     ]});
+    await startMessage.pin().catch(e => {});
     await interaction.editReply({content: 'Game started!'});
 };

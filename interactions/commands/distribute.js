@@ -1,7 +1,6 @@
 const db = require.main.require('./models');
 const controlOnly = require.main.require('./fn/controlOnly.js');
 const isMod = require('../../fn/isMod');
-const distribute = require('../../fn/distribute');
 
 const votesPerAction = 3;
 
@@ -14,7 +13,7 @@ module.exports = {
         if (!isMod(interaction))
             return interaction.reply({content: 'You must have the Manage Server permission to use this command.', ephemeral: true});
         await interaction.deferReply({ephemeral: true});
-        await distribute(game, interaction);
+        await game.distribute(interaction);
         await interaction.editReply({content: 'Successfully distributed AP.'});
     }
 };

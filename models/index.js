@@ -32,5 +32,19 @@ module.exports = db;
 
 
 require('./game/getChannel');
+require('./game/getPlayers');
+require('./game/distribute');
+require('./game/end');
+require('./game/editPlayerList');
+require('./game/editSettingsMessage');
+require('./game/log');
+require('./game/tileAvailable');
+require('./game/tileName');
+require('./game/renderBoard');
+
 require('./player/getGame');
 require('./player/getName');
+require('./player/getVotes');
+require('./player/controlCentre');
+require('./player/playersInRange');
+require('./player/playersInRangeSelectMenu');

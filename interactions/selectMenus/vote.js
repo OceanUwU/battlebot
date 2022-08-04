@@ -4,7 +4,7 @@ const controlOnly = require.main.require('./fn/controlOnly.js');
 module.exports = async interaction => {
     let game = await controlOnly(interaction);
     if (game == null) return;
-    let player = await db.Player.findOne({where: {game: game.id, user: interaction.user.id}});
+    let player = await db.Player.findOne({where: {gameId: game.id, user: interaction.user.id}});
     if (player == null)
         return interaction.reply({ephemeral: true, content: 'Only players may use this command!'});
 
