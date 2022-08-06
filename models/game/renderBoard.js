@@ -69,9 +69,10 @@ db.Game.prototype.renderBoard = async function(zoomPlayer) {
         //write player name
         player.game = this;
         await player.getName();
-        ctx.font = `${Math.min(squareSize*0.4, squareSize*(1.25/player.name.length))}px Arial`;
+        let name = player.name.slice(0, 10).trim();
+        ctx.font = `${Math.min(squareSize*0.4, squareSize*(1.25/name.length))}px Arial`;
         ctx.fillStyle = '#000000';
-        ctx.fillText(player.name, squareSize/2, squareSize*0.2);
+        ctx.fillText(name, squareSize/2, squareSize*0.2);
 
         //write player range
         ctx.font = `${squareSize*0.21}px Arial`;
