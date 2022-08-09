@@ -8,8 +8,8 @@ module.exports = async interaction => {
         return interaction.reply({content: 'This game has already started.', ephemeral: true});
     if (await db.Player.count({where: {gameId: game.id, user: interaction.user.id}}) > 0)
         return interaction.reply({content: 'You\'ve already joined this game.', ephemeral: true});
-    if ((interaction.message.content.match(/\n/g) || []).length >= 50)
-        return interaction.reply({content: 'This game has 50 players! It\'s full!', ephemeral: true});
+    if (await db.Player.count({where: {gameId: game.id}}) > 0 >= 25)
+        return interaction.reply({content: 'This game has 25 players! It\'s full!', ephemeral: true});
     await db.Player.create({
         gameId: game.id,
         user: interaction.user.id,
