@@ -12,7 +12,7 @@ module.exports = async interaction => {
     if (game.started)
         return interaction.reply({content: 'This game has already started.', ephemeral: true});
     let players = await game.getPlayers();
-    if (players.length < 2 && !cfg.dev)
+    if (players.length < 2)
         return interaction.reply({content: 'You need at least 2 players to play!', ephemeral: true});
 
     await interaction.deferReply({ephemeral: true}); //show loading message

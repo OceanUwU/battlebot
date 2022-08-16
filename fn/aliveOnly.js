@@ -1,16 +1,12 @@
 const db = require.main.require('./models');
-const controlOnly = require('./controlOnly.js');
+const playerOnly = require('./playerOnly.js');
 
-async function aliveOnly(interaction) {
-    let game = await controlOnly(interaction);
-    if (game == null) return [null, null];
-    let player = await db.Player.findOne({where: {gameId: game.id, user: interaction.user.id}});
-    if (player == null || !player.alive) {
+module.exports = async interaction => {
+    let [game, player] = await playerOnly(interaction);
+    if (player == null) return [null, null];
+    if (!player.alive) {
         await interaction.reply({content: 'Only alive players may use this command.', ephemeral: true});
         return [null, null];
     }
-    player.game = game;
     return [game, player];
-}
-
-module.exports = aliveOnly;
+};
