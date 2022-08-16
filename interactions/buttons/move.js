@@ -32,6 +32,6 @@ module.exports = async (interaction, direction) => {
         await player.increment('health');
         await db.Heart.destroy({where: {game: game.id, x ,y}});
     }
-    await game.log(`<@${player.user}> MOVEd to ${db.Game.tileName(x, y)}${hearted ? ' and picked up a heart!' : '.'}`);
+    await game.log(`<@${player.user}> (${await player.getName()}) MOVEd to ${db.Game.tileName(x, y)}${hearted ? ' and picked up a heart!' : '.'}`);
     await interaction.editReply(await moveMenu(interaction, game, await db.Player.findOne({where: {id: player.id}}), 'move'));
 };

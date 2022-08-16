@@ -12,6 +12,6 @@ module.exports = async interaction => {
     await player.increment('health');
     await player.decrement('actions', {by: cost});
     await player.reload();
-    await game.log(`<@${interaction.user.id}> HEALed to ${player.health} hearts.`);
+    await game.log(`<@${interaction.user.id}> (${await player.getName()}) HEALed to ${player.health} hearts.`);
     await interaction.editReply(await player.controlCentre());
 };

@@ -12,6 +12,6 @@ module.exports = async interaction => {
     await player.increment('range');
     await player.decrement('actions', {by: cost});
     await player.reload();
-    await game.log(`<@${player.user}> UPGRADEd their range to ${player.range}.`);
+    await game.log(`<@${player.user}> (${await player.getName()}) UPGRADEd their range to ${player.range}.`);
     await interaction.editReply(await player.controlCentre());
 };

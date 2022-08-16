@@ -19,7 +19,7 @@ module.exports = async interaction => {
     await player.increment('actions', {by: actionsAcquired-cost});
     await player.reload();
     await shooting.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? Date.now() : null});
-    await game.log(`<@${player.user}> SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`, true, [shooting.user]);
+    await game.log(`<@${player.user}> (${await player.getName()}) SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`, true, [shooting.user]);
     
     //end game if needed
     if ((await db.Player.count({where: {gameId: game.id, alive: true}})) <= 1)

@@ -23,7 +23,7 @@ module.exports = async (interaction, type) => {
         await interaction.deferUpdate();
         await player.update({health: player.health-1, alive: player.health > 1, deathTime: player.health == 1 ? Date.now() : null});
         await gifting.update({health: gifting.health+1, alive: true, deathTime: null});
-        await game.log(`<@${player.user}> GIFTed <@${gifting.user}> a heart.${gifting.alive ? '' : `\n<@${gifting.user}> was revived! They can no longer **/vote** as a jury member, but they can use **/c** again!`}`, true, [gifting.user]);
+        await game.log(`<@${player.user}> (${await player.getName()}) GIFTed <@${gifting.user}> a heart.${gifting.alive ? '' : `\n<@${gifting.user}> was revived! They can no longer **/vote** as a jury member, but they can use **/c** again!`}`, true, [gifting.user]);
         if ((await db.Player.count({where: {gameId: game.id, alive: true}})) <= 1)
             await game.end();
     }

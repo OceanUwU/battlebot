@@ -41,7 +41,7 @@ module.exports = async (interaction, direction) => {
         await db.Heart.destroy({where: {game: game.id, x ,y}});
     }
 
-    await game.log(`<@${player.user}> PUSHed <@${pushing.user}> ${hearted ? 'into the heart at' : 'to'} ${rankNames[x]}${y+1}.`, [pushing.user]);
+    await game.log(`<@${player.user}> (${await player.getName()}) PUSHed <@${pushing.user}> ${hearted ? 'into the heart at' : 'to'} ${rankNames[x]}${y+1}.`, [pushing.user]);
     let updateData = await pushmenu(interaction, false);
     if (updateData === null)
         await interaction.editReply(await player.controlCentre());
