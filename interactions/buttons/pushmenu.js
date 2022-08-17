@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const playerOnly = require('../../fn/playerOnly');
 const moveMenu = require('../../fn/moveMenu');
 

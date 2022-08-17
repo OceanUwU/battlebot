@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const db = require.main.require('./models');
 const cfg = require('../../cfg.json');
 const isMod = require('../../fn/isMod');
@@ -32,7 +32,7 @@ module.exports = async interaction => {
     await game.update({started: true, nextPoint: Date.now()});
     let startMessage = await game.log('The game has begun!');
     await interaction.channel.send({content: `${players.map(p => `<@${p.user}>`).join(' ')}\nType **/c** to control your player here.`, components: [
-        new MessageActionRow().addComponents(new MessageButton().setLabel('Rules').setStyle('LINK').setURL('https://battlebot.ocean.lol/'))
+        new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel('Rules').setStyle(ButtonStyle.Link).setURL('https://battlebot.ocean.lol/'))
     ]});
     await startMessage.pin().catch(e => {});
     await interaction.editReply({content: 'Game started!'});

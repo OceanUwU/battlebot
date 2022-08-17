@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
 const db = require('../');
 
 db.Player.prototype.playersInRangeSelectMenu = async function() {
@@ -9,9 +9,9 @@ db.Player.prototype.playersInRangeSelectMenu = async function() {
     }));
 
     if (options.length > 0) 
-        return new MessageActionRow()
+        return new ActionRowBuilder()
             .addComponents(
-                new MessageSelectMenu()
+                new SelectMenuBuilder()
                     .setCustomId('player')
                     .setPlaceholder('Player')
                     .addOptions(options),

@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const db = require.main.require('./models');
 
 const translations = [
@@ -12,10 +12,10 @@ const translations = [
     [-1, 0],
 ];
 const directionChars = '↖↑↗→↘↓↙←';
-const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).map(async (e,i) => new MessageButton()
+const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).map(async (e,i) => new ButtonBuilder()
     .setCustomId(`${type}${i}`)
     .setLabel(directionChars[i])
-    .setStyle('SECONDARY')
+    .setStyle(ButtonStyle.Secondary)
     .setDisabled(type == 'push' ? false : !(await available(i, game, player)))));
 
 async function available(dir, game, player) {
@@ -28,22 +28,22 @@ module.exports = async (interaction, game, player, type) => {
     return {
         content: (await player.controlCentre()).content,
         components: [
-            new MessageActionRow()
+            new ActionRowBuilder()
             .addComponents(buttons[0])
             .addComponents(buttons[1])
             .addComponents(buttons[2]),
             
-            new MessageActionRow()
+            new ActionRowBuilder()
             .addComponents(buttons[7])
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('maincontrolmenu')
                     .setLabel('x')
-                    .setStyle('DANGER'),
+                    .setStyle(ButtonStyle.Danger),
             )
             .addComponents(buttons[3]),
             
-            new MessageActionRow()
+            new ActionRowBuilder()
             .addComponents(buttons[6])
             .addComponents(buttons[5])
             .addComponents(buttons[4]),

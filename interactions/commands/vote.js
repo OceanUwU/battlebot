@@ -1,5 +1,5 @@
 const db = require.main.require('./models');
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
 const controlOnly = require('../../fn/controlOnly');
 
 module.exports = {
@@ -21,9 +21,9 @@ module.exports = {
         await interaction.editReply({
             content: `${player.alive ? 'Setting your vote while alive will have no effect until you\'re dead.\n' : ''}Your vote is currently: ${player.vote == null ? 'No one' : `<@${(await db.Player.findOne({where: {id: player.vote}})).user}>`}.`,
             components: [
-                new MessageActionRow()
+                new ActionRowBuilder()
                     .addComponents(
-                        new MessageSelectMenu()
+                        new SelectMenuBuilder()
                             .setCustomId('vote')
                             .setPlaceholder('Vote')
                             .addOptions([{

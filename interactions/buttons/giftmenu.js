@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const playerOnly = require('../../fn/playerOnly');
 
 module.exports = async interaction => {
@@ -12,24 +12,24 @@ module.exports = async interaction => {
         components: [
             select,
 
-            new MessageActionRow()
+            new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('gift0')
                         .setLabel('GIFT AP')
-                        .setStyle('PRIMARY'),
+                        .setStyle(ButtonStyle.Primary),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('gift1')
                         .setLabel('GIFT heart')
-                        .setStyle('SUCCESS'),
+                        .setStyle(ButtonStyle.Success),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('maincontrolmenu')
                         .setLabel('Back')
-                        .setStyle('DANGER'),
+                        .setStyle(ButtonStyle.Danger),
                 ),
         ],
     });

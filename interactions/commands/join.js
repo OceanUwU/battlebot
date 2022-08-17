@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const db = require.main.require('./models');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
         if (game.started)
             return interaction.reply({content: 'This game has already started.', ephemeral: true});
         await interaction.reply({content: 'Join using the link below:', ephemeral: interaction.options.getBoolean('send') !== true, components: [
-            new MessageActionRow().addComponents(new MessageButton().setLabel('Join').setStyle('LINK').setURL(`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${game.joinMenu}`))
+            new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel('Join').setStyle(ButtonStyle.Link).setURL(`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${game.joinMenu}`))
         ]});
     }
 };

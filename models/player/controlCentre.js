@@ -1,5 +1,5 @@
 const db = require('../');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const imgbbUploader = require('imgbb-uploader');
 const cfg = require.main.require('./cfg.json');
 
@@ -15,43 +15,43 @@ db.Player.prototype.controlCentre = async function() {
     return {
         content: `YOU HAVE ${this.actions} ACTION POINTS.\n${img.url}`,
         components: [
-            new MessageActionRow()
+            new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('movemenu')
                         .setLabel('MOVE (1)')
-                        .setStyle('PRIMARY'),
+                        .setStyle(ButtonStyle.Primary),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('shootmenu')
                         .setLabel('SHOOT (1)')
-                        .setStyle('DANGER'),
+                        .setStyle(ButtonStyle.Danger),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('giftmenu')
                         .setLabel('GIFT (0)')
-                        .setStyle('PRIMARY'),
+                        .setStyle(ButtonStyle.Primary),
                 ),
-            new MessageActionRow()
+            new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('heal')
                         .setLabel('HEAL (3)')
-                        .setStyle('SUCCESS'),
+                        .setStyle(ButtonStyle.Success),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('upgrade')
                         .setLabel('UPGRADE (3)')
-                        .setStyle('SUCCESS'),
+                        .setStyle(ButtonStyle.Success),
                 )
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId('pushmenu')
                         .setLabel('PUSH (1)')
-                        .setStyle('SECONDARY'),
+                        .setStyle(ButtonStyle.Secondary),
                 )
         ],
     };

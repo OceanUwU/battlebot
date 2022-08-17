@@ -1,8 +1,8 @@
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const cfg = require('./cfg.json');
 const requireDir = require('require-dir');
 
-const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const bot = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 module.exports = bot;
 var commands = requireDir('interactions/commands');
 var buttons = requireDir('interactions/buttons');
@@ -24,7 +24,7 @@ bot.once('ready', async () => {
 });
 
 bot.on('interactionCreate', async interaction => {
-	if (interaction.isCommand()) {
+	if (interaction.isCommand() || interaction.isUserContextMenuCommand()) {
 		if (!commands.hasOwnProperty(interaction.commandName)) return;
 	
 		try {
