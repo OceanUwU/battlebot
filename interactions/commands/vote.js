@@ -28,7 +28,6 @@ module.exports = {
                             .setPlaceholder('Vote')
                             .addOptions([{
                                 label: 'No one',
-                                description: '',
                                 value: 'null',
                             }])
                             .addOptions(await Promise.all(players.map(async p => ({
