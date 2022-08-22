@@ -11,6 +11,5 @@ module.exports = async interaction => {
         return interaction.reply({content: 'You can\'t change this after the game has started.', ephemeral: true});
     let [width, height] = interaction.values[0].split('x').map(n => Number(n));
     await game.update({width, height});
-    await interaction.reply({content: `<@${interaction.user.id}> changed the board size to ${game.width}x${game.height}.`, allowedMentions: {users: []}});
     await game.editSettingsMessage(interaction.message);
 };

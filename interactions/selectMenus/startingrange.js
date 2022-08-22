@@ -8,6 +8,5 @@ module.exports = async interaction => {
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to change this.', ephemeral: true});
     await game.update({startingRange: Number(interaction.values)});
-    await interaction.reply({content: `<@${interaction.user.id}> changed the starting range to ${game.startingRange}.`, allowedMentions: {users: []}});
     await game.editSettingsMessage(interaction.message);
 };
