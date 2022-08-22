@@ -8,6 +8,8 @@ module.exports = async interaction => {
     if (game == null) return;
     if (player.actions < cost)
         return interaction.reply({content: `You need ${cost} AP to do that!`, ephemeral: true});
+    if (player.range >= 20)
+        return interaction.reply({content: `Your range cannot go above 20.`, ephemeral: true});
     await interaction.deferUpdate();
     await player.increment('range');
     await player.decrement('actions', {by: cost});
