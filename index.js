@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, GatewayIntentBits, ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const cfg = require('./cfg.json');
 const requireDir = require('require-dir');
 
@@ -15,8 +15,13 @@ bot.log = str => {
 
 bot.once('ready', async () => {
 	bot.log('Connected, registering commands...');
-    await bot.application?.fetch();
-    await (cfg.dev ? bot.guilds.cache.get(cfg.devServer) : bot.application)?.commands.set(Object.values(commands));
+	let commandsToRegister = Object.values(commands);
+	for (let command of commandsToRegister.filter(c => c.contextMenu))
+		for (let type of [ApplicationCommandType.User, ApplicationCommandType.Message])
+			commandsToRegister.push(new ContextMenuCommandBuilder().setName(command.name).setType(type));
+	await bot.application?.fetch();
+	if (cfg.dev) await bot.application?.commands.set([]);
+    await (cfg.dev ? bot.guilds.cache.get(cfg.devServer) : bot.application)?.commands.set(commandsToRegister);
 	bot.log('Ready!');
 
 	setInterval(autoDistribution, 60000);

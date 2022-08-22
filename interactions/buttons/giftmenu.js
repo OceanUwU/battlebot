@@ -30,6 +30,12 @@ module.exports = async interaction => {
                         .setCustomId('maincontrolmenu')
                         .setLabel('Back')
                         .setStyle(ButtonStyle.Danger),
+                )
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('refresh')
+                        .setLabel('⟳')
+                        .setStyle(ButtonStyle.Secondary),
                 ),
         ],
     });

@@ -7,7 +7,7 @@ module.exports = async interaction => {
         return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to change this.', ephemeral: true});
-    if (!game.started)
+    if (game.started)
         return interaction.reply({content: 'You can\'t change this after the game has started.', ephemeral: true});
     let [width, height] = interaction.values[0].split('x').map(n => Number(n));
     await game.update({width, height});

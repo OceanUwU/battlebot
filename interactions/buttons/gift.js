@@ -27,5 +27,5 @@ module.exports = async (interaction, type) => {
         if ((await db.Player.count({where: {gameId: game.id, alive: true}})) <= 1)
             await game.end();
     }
-    await interaction.editReply({content: (await player.controlCentre()).content});
+    await interaction.editReply({...await player.controlCentre(), components: interaction.message.components});
 };

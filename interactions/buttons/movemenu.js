@@ -3,7 +3,6 @@ const playerOnly = require('../../fn/playerOnly');
 const moveMenu = require('../../fn/moveMenu');
 const db = require.main.require('./models');
 
-
 module.exports = async interaction => {
     let [game, player] = await playerOnly(interaction);
     if (game == null) return;

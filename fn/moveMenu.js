@@ -29,24 +29,30 @@ module.exports = async (interaction, game, player, type) => {
         content: (await player.controlCentre()).content,
         components: [
             new ActionRowBuilder()
-            .addComponents(buttons[0])
-            .addComponents(buttons[1])
-            .addComponents(buttons[2]),
+                .addComponents(buttons[0])
+                .addComponents(buttons[1])
+                .addComponents(buttons[2]),
             
             new ActionRowBuilder()
-            .addComponents(buttons[7])
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('maincontrolmenu')
-                    .setLabel('x')
-                    .setStyle(ButtonStyle.Danger),
-            )
-            .addComponents(buttons[3]),
+                .addComponents(buttons[7])
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('maincontrolmenu')
+                        .setLabel('x')
+                        .setStyle(ButtonStyle.Danger),
+                )
+                .addComponents(buttons[3]),
             
             new ActionRowBuilder()
-            .addComponents(buttons[6])
-            .addComponents(buttons[5])
-            .addComponents(buttons[4]),
+                .addComponents(buttons[6])
+                .addComponents(buttons[5])
+                .addComponents(buttons[4])
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('refresh')
+                        .setLabel('⟳')
+                        .setStyle(ButtonStyle.Secondary),
+                ),
         ]
     };
 };

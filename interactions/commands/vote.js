@@ -5,6 +5,7 @@ const controlOnly = require('../../fn/controlOnly');
 module.exports = {
     name: 'vote',
     description: 'Sets your jury vote.',
+    contextMenu: true,
     async execute(interaction) {
         let game = await controlOnly(interaction);
         if (game == null) return;

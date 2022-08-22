@@ -28,5 +28,5 @@ module.exports = async interaction => {
         await interaction.editReply(await player.controlCentre());
         await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`);
     } else
-        await interaction.editReply({content: (await player.controlCentre()).content});
+        await interaction.editReply({...await player.controlCentre(), components: interaction.message.components});
 };
