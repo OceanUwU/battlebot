@@ -52,17 +52,22 @@ module.exports = {
                 ),
             new ActionRowBuilder()
                 .addComponents(
-                    new SelectMenuBuilder()
-                        .setCustomId('startinghearts')
-                        .setPlaceholder('Starting Hearts')
-                        .addOptions([1,2,3,4,5,6,7,8,9,10].map(n => String(n)).map(n => ({label: n, value: n}))),
-                ),
-            new ActionRowBuilder()
-                .addComponents(
-                    new SelectMenuBuilder()
-                        .setCustomId('startingrange')
-                        .setPlaceholder('Starting Range')
-                        .addOptions([0,1,2,3,4,5,6,7,8,9,10].map(n => String(n)).map(n => ({label: n, value: n}))),
+                    new ButtonBuilder()
+                        .setCustomId('startinghearts1')
+                        .setLabel('♥+')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('startinghearts0')
+                        .setLabel('♥-')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('startingrange1')
+                        .setLabel('r+')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('startingrange0')
+                        .setLabel('r-')
+                        .setStyle(ButtonStyle.Secondary),
                 ),
         ];
 		let startButton = new ActionRowBuilder()

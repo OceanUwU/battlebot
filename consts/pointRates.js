@@ -7,6 +7,6 @@ module.exports = [
     ['24 hours', 24 * 60 * 60 * 1000],
     ['7 days', 7 * 24 * 60 * 60 * 1000],
     ['30 days', 30 * 24 * 60 * 60 * 1000],
-    ['Random (daily)', 1, 'Every 24 hours, AP will be distributed at least once, at a random time.'],
+    //['Random (daily)', 1, 'Every 24 hours, AP will be distributed at least once, at a random time.'],
     ['Never', 0, 'AP will be manually distributed with the /distribute command.'],
 ];

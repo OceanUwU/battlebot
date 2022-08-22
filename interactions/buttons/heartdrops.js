@@ -8,5 +8,5 @@ module.exports = async interaction => {
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to change this.', ephemeral: true});
     await game.update({heartDrops: !game.heartDrops});
-    await game.editSettingsMessage(interaction.message);
+    await game.editSettingsMessage(interaction);
 };
