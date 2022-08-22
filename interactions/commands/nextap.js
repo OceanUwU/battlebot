@@ -18,6 +18,7 @@ module.exports = {
         description: 'Should the next AP time be visible to everyone, instead of just you?',
         type: 5, //boolean
     }],
+    contextMenu: true,
     async execute(interaction) {
         let game = await db.Game.findOne({where: {channel: interaction.channelId}});
         if (!game)
