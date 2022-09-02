@@ -26,12 +26,7 @@ module.exports = async (interaction, direction) => {
         return interaction.reply({content: `You need ${cost} AP to do that!`, ephemeral: true});
     await interaction.deferUpdate();
     await player.update({x, y, actions: player.actions - cost});
-    let hearted = false;
-    if (await db.Heart.count({where: {game: game.id, x, y}}) > 0) {
-        hearted = true;
-        await player.increment('health');
-        await db.Heart.destroy({where: {game: game.id, x ,y}});
-    }
-    await game.log(`<@${player.user}> (${await player.getName()}) MOVEd to ${db.Game.tileName(x, y)}${hearted ? ' and picked up a heart!' : '.'}`);
+    let dropMessage = await player.eatDrop();
+    await game.log(`<@${player.user}> (${await player.getName()}) MOVEd to ${db.Game.tileName(x, y)}.\n${dropMessage}`);
     await interaction.editReply(await moveMenu(interaction, game, await db.Player.findOne({where: {id: player.id}}), 'move'));
 };

@@ -34,14 +34,9 @@ module.exports = async (interaction, direction) => {
     await interaction.deferUpdate();
     await player.decrement('actions', {by: cost});
     await pushing.update({x, y});
-    let hearted = false;
-    if (await db.Heart.count({where: {game: game.id, x, y}}) > 0) {
-        hearted = true;
-        await pushing.update({health: pushing.health+1, alive: true, deathTime: null});
-        await db.Heart.destroy({where: {game: game.id, x ,y}});
-    }
+    let dropMessage = await pushing.eatDrop();
 
-    await game.log(`<@${player.user}> (${await player.getName()}) PUSHed <@${pushing.user}> ${hearted ? 'into the heart at' : 'to'} ${rankNames[x]}${y+1}.`, [pushing.user]);
+    await game.log(`<@${player.user}> (${await player.getName()}) PUSHed <@${pushing.user}> 'to' ${rankNames[x]}${y+1}.\n${dropMessage}`, [pushing.user]);
     let updateData = await pushmenu(interaction, false);
     if (updateData === null)
         await interaction.editReply(await player.controlCentre());

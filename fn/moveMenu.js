@@ -26,7 +26,7 @@ async function available(dir, game, player) {
 module.exports = async (interaction, game, player, type) => {
     let buttons = await createButtons(game, player, type)
     return {
-        content: (await player.controlCentre()).content,
+        ...await player.controlCentre(),
         components: [
             new ActionRowBuilder()
                 .addComponents(buttons[0])

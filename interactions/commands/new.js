@@ -14,24 +14,23 @@ module.exports = {
         if (!isMod(interaction))
             return interaction.reply({content: 'You must have the Manage Server permission or own the thread the command is being used in to use this command.', ephemeral: true});
 
-        //create join button
-		let joinButtons = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('join')
-                    .setLabel('Join')
-                    .setStyle(ButtonStyle.Success),
-            )
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('leave')
-                    .setLabel('Leave')
-                    .setStyle(ButtonStyle.Danger),
-            );
-        let joinMenu = await interaction.channel.send({content: 'Players:', components: [joinButtons]});
+        //create start button
+        await interaction.reply({content: 'New game created!\nStart it here (only mods may use these):', components: [
+            new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('start')
+                        .setLabel('Start')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('abort')
+                        .setLabel('Abort')
+                        .setStyle(ButtonStyle.Danger),
+                )
+        ]});
 
         //create start button + options
-        let options = [
+        let settingsMenu = await interaction.channel.send({content: '**__GAME SETTINGS__** (only mods may change these):', components: [
             new ActionRowBuilder()
                 .addComponents(
                     new SelectMenuBuilder()
@@ -53,6 +52,29 @@ module.exports = {
             new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
+                        .setCustomId('drops0')
+                        .setLabel('Toggle Heart Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops1')
+                        .setLabel('Toggle Battery Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops2')
+                        .setLabel('Toggle Range Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops3')
+                        .setLabel('Toggle Portals')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops4')
+                        .setLabel('Toggle Black Holes')
+                        .setStyle(ButtonStyle.Secondary),
+                ),
+            new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
                         .setCustomId('startinghearts1')
                         .setLabel('♥+')
                         .setStyle(ButtonStyle.Secondary),
@@ -69,27 +91,24 @@ module.exports = {
                         .setLabel('r-')
                         .setStyle(ButtonStyle.Secondary),
                 ),
-        ];
-		let startButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('start')
-                    .setLabel('Start')
-                    .setStyle(ButtonStyle.Primary),
-            )
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('abort')
-                    .setLabel('Abort')
-                    .setStyle(ButtonStyle.Danger),
-            )
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('heartdrops')
-                    .setLabel('Toggle Heart Drops')
-                    .setStyle(ButtonStyle.Secondary),
-            );
-        let startMenu = await interaction.channel.send({content: 'Start the game here (only mods may use these)', components: [...options, startButton]});
+        ]});
+
+        //create join button
+        let joinMenu = await interaction.channel.send({content: 'Players:', components: [
+            new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('join')
+                        .setLabel('Join')
+                        .setStyle(ButtonStyle.Success),
+                )
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('leave')
+                        .setLabel('Leave')
+                        .setStyle(ButtonStyle.Danger),
+                )
+        ]});
 
         await joinMenu.pin().catch(e => {});
 
@@ -97,16 +116,14 @@ module.exports = {
             started: false,
             finished: false,
             joinMenu: joinMenu.id,
-            pointRate: 0,
-            heartDrops: false,
+            pointRate: 24 * 60 * 60 * 1000,
+            heartDrops: true,
             startingHearts: 3,
             startingRange: 2,
             width: 20,
             height: 12,
             channel: interaction.channelId,
         });
-        await game.editSettingsMessage(startMenu);
-
-        return interaction.reply({content: 'Game created.', ephemeral: true});
+        await game.editSettingsMessage(settingsMenu);
     }
 };

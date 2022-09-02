@@ -12,7 +12,8 @@ const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const gradientOpacity = '50'; //hex
 const images = {
     logo: loadImage('./docs/battlebot.png'),
-    heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png'), loadImage('./heartdrop.png')],
+    heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png')],
+    drops: [loadImage('./heartdrop.png'), loadImage('./battery.png'), loadImage('./range.png'), loadImage('./portal.png'), loadImage('./blackhole.png')]
 };
 
 db.Game.prototype.renderBoard = async function(zoomPlayer) {
@@ -119,14 +120,10 @@ db.Game.prototype.renderBoard = async function(zoomPlayer) {
         ctx.restore();
     }
 
-    //draw hearts
-    let hearts = await db.Heart.findAll({where: {game: this.id}});
-    let img = await images.heart[2];
-    ctx.globalAlpha = 0.5;
-    for (let heart of hearts) {
-        ctx.drawImage(img, fullSquareSize*(heart.x+1), fullSquareSize*(heart.y+1), squareSize, squareSize);
-    }
-    ctx.globalAlpha = 1;
+    //draw drops
+    let drops = await db.Heart.findAll({where: {game: this.id}});
+    for (let drop of drops)
+        ctx.drawImage(await images.drops[drop.type], fullSquareSize*(drop.x+1), fullSquareSize*(drop.y+1), squareSize, squareSize);
 
     if (zoomPlayer)
         canvas = zoom(canvas, zoomPlayer);

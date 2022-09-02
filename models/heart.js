@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Heart.init({
     game: DataTypes.INTEGER,
+    type: DataTypes.INTEGER,
     x: DataTypes.INTEGER,
     y: DataTypes.INTEGER
   }, {
