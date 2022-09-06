@@ -94,7 +94,7 @@ module.exports = {
         ]});
 
         //create join button
-        let joinMenu = await interaction.channel.send({content: 'Players:', components: [
+        let joinMenu = await interaction.channel.send({content: 'Join here:', components: [
             new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -125,5 +125,6 @@ module.exports = {
             channel: interaction.channelId,
         });
         await game.editSettingsMessage(settingsMenu);
+        await game.editPlayerList(joinMenu);
     }
 };
