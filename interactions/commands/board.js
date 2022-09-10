@@ -4,7 +4,7 @@ const cfg = require.main.require('./cfg.json');
 module.exports = {
     name: 'board',
     description: 'Displays the current board.',
-    contextMenu: true,
+    contextMenu: false,
     options: [{
         name: 'send',
         description: 'Should the board message be visible to everyone, instead of just you?',
@@ -14,6 +14,6 @@ module.exports = {
         let game = await controlOnly(interaction);
         if (game == null) return;
         await interaction.deferReply({ephemeral: interaction.options.getBoolean('send') !== true});
-        await interaction.editReply({files: [await game.renderBoard()]});
+        await interaction.editReply({files: [await game.render()]});
     }
 };

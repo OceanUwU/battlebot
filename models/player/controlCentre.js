@@ -54,7 +54,7 @@ db.Player.prototype.controlCentre = async function() {
 
     return {
         content: `YOU HAVE ${this.actions} ACTION POINTS.`,
-        files: [await this.game.renderBoard(this)],
+        files: [await this.game.render(this)],
         components,
     };
 }

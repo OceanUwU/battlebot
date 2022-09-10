@@ -8,6 +8,6 @@ module.exports = {
         let [game, player] = await playerOnly(interaction);
         if (game == null) return;
         await interaction.deferReply();
-        await interaction.editReply({files: [await game.renderBoard(player)]});
+        await interaction.editReply({files: [await game.render(player)]});
     }
 };

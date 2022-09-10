@@ -1,0 +1,1 @@
+module.exports = () => ((1<<24)*(Math.random()+1)|0).toString(16).slice(1);

@@ -5,6 +5,6 @@ db.Game.prototype.log = async function(text, showBoard=true, mentions=[]) {
     return await this.dChannel?.send({
         content: text,
         allowedMentions: {users: mentions},
-        files: showBoard ? [await this.renderBoard()] : []
+        files: showBoard ? [await this.render()] : []
     }).catch(e => {});
 };

@@ -15,8 +15,6 @@ module.exports = async interaction => {
         user: interaction.user.id,
         alive: true,
         actions: 0,
-        colour1: ((1<<24)*(Math.random()+1)|0).toString(16).substr(1),
-        colour2: ((1<<24)*(Math.random()+1)|0).toString(16).substr(1),
     });
     //add user to the player list in message
     await game.editPlayerList(interaction.message);

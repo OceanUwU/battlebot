@@ -38,14 +38,16 @@ require('./game/editSettingsMessage');
 require('./game/getChannel');
 require('./game/getPlayers');
 require('./game/log');
-require('./game/renderBoard');
+require('./game/render');
 require('./game/tileAvailable');
 require('./game/tileName');
 
 require('./player/controlCentre');
 require('./player/eatDrop');
+require('./player/getConfig');
 require('./player/getGame');
 require('./player/getName');
 require('./player/getVotes');
 require('./player/playersInRange');
 require('./player/playersInRangeSelectMenu');
+require('./player/render');

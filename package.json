@@ -11,7 +11,7 @@
   "author": "ocean",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.8.0",
+    "canvas": "2.10",
     "discord.js": "^14.2.0",
     "imgbb-uploader": "^1.3.3",
     "require-dir": "^1.2.0",
