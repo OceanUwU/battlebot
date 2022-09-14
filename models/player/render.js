@@ -8,11 +8,15 @@ const gradientOpacity = '50'; //hex
 const images = {
     heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png')],
     icons: {
-        white: createCanvas(size, size),
+        white: loadImage('./icons/white.png'),
         battlebot: loadImage('./icons/battlebot.png'),
+        player: loadImage('./icons/player.png'),
         first: loadImage('./icons/first.png'),
         second: loadImage('./icons/second.png'),
         third: loadImage('./icons/third.png'),
+        sharer: loadImage('./icons/groupwin.png'),
+        skull: loadImage('./icons/death.png'),
+        clock: loadImage('./icons/clock.png'),
         dev: loadImage('./icons/dev.png'),
     },
 };
@@ -44,8 +48,7 @@ db.Player.prototype.render = async function() {
 
     //background
     await this.getConfig();
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, size, size);
+    ctx.drawImage(await images.icons[this.config.image], 0, 0, size, size);
     switch (this.config.style) {
         case 'diagonal':
             ctx.fillStyle = ctx.createLinearGradient(0, 0, size, size);
@@ -64,7 +67,7 @@ db.Player.prototype.render = async function() {
 
         case 'waves':
             ctx.fillStyle = ctx.createRadialGradient(size/2, size/2, size/10, size/2, size/2, size*1.25);
-            for (let i = 0; i < 1.2; i += 0.2) {
+            for (let i = 0.2; i < 1.2; i += 0.2) {
                 ctx.fillStyle.addColorStop(i, `#${this.config.colour1}${gradientOpacity}`);
                 ctx.fillStyle.addColorStop(i+0.1, `#${this.config.colour2}${gradientOpacity}`);
             }
@@ -79,9 +82,8 @@ db.Player.prototype.render = async function() {
             }
             break;
 
-        case 'image':
-            ctx.drawImage(await images.icons[this.config.image], 0, 0, size, size);
-            ctx.fillStyle = '#00000000';
+        case 'none':
+            ctx.fillStyle = 'transparent';
             break;
     }
     ctx.fillRect(0, 0, size, size);
@@ -98,7 +100,7 @@ db.Player.prototype.render = async function() {
 
     //draw player hearts
     if (this.health > maxHearts) {
-        ctx.drawImage(await images.heart[1], (size/(maxHearts+1))-(heartSize/2), size*0.7, heartSize, heartSize);
+        ctx.drawImage(await images.heart[1], size*0.2, size*0.7, heartSize, heartSize);
         ctx.font = `${size*0.21}px Arial`;
         ctx.fillText(`x${this.health}`, (size/(maxHearts+1))*2.8-(heartSize/2), size*0.8);
     } else

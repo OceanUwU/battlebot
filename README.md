@@ -1,5 +1,8 @@
 # battlebot
 a discord bot based on [tank turn tactics](https://gdcvault.com/play/1017744)
+[game rules](https://battlebot.ocean.lol/)
+[invite the bot to your server](https://discord.com/api/oauth2/authorize?client_id=869182949826904076&permissions=8192&scope=bot%20applications.commands)
+we also have a server where we regularly play games of this. [play with us!](https://discord.gg/KXgz9KBnga)
 
 ## setup
 1. `npm ci`
