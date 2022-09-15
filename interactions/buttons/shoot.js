@@ -22,7 +22,7 @@ module.exports = async interaction => {
     await game.log(`<@${player.user}> (${await player.getName()}) SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`, true, [shooting.user]);
     
     //end game if needed
-    if ((await db.Player.count({where: {gameId: game.id, alive: true}})) <= 1)
+    if (newHealth <= 0 && (await db.Player.count({where: {gameId: game.id, alive: true}})) <= 1)
         await game.end();
     else if (newHealth <= 0) {
         await interaction.editReply(await player.controlCentre());
