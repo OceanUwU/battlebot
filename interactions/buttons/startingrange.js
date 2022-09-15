@@ -10,8 +10,8 @@ module.exports = async (interaction, positive) => {
     let newStart = game.startingRange + (positive * 2 - 1);
     if (newStart < 0)
         return interaction.reply({content: 'Starting range must be at least 0.', ephemeral: true});
-    else if (newStart > 20)
-        return interaction.reply({content: 'Range cannot go above 20.', ephemeral: true});
+    else if (newStart > 19)
+        return interaction.reply({content: 'Range cannot go above 19.', ephemeral: true});
     await game.update({startingRange: newStart});
     await game.editSettingsMessage(interaction);
 };

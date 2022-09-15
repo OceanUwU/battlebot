@@ -14,6 +14,8 @@ we also have a server where we regularly play games of this. [play with us!](htt
         "imgbbkey": "jasdhjksahdkjfhsakf",
         "dev": false,
         "devServer": "1234567890",
+        "mainChannel": "",
+        "quikChannel": "",
         "overriders": ["106068236000329728"]
     }
     ```
