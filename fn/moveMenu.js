@@ -12,11 +12,20 @@ const translations = [
     [-1, 0],
 ];
 const directionChars = '↖↑↗→↘↓↙←';
-const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).map(async (e,i) => new ButtonBuilder()
-    .setCustomId(`${type}${i}`)
-    .setLabel(directionChars[i])
-    .setStyle(ButtonStyle.Secondary)
-    .setDisabled(type == 'push' ? false : !(await available(i, game, player)))));
+const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).map(async (e,i) => {
+    if (!game.diagonals && i % 2 == 0)
+        return new ButtonBuilder()
+            .setCustomId(`nope${i}`)
+            .setLabel(' ')
+            .setStyle(ButtonStyle.Secondary)
+            .setDisabled(true);
+
+    return new ButtonBuilder()
+        .setCustomId(`${type}${i}`)
+        .setLabel(directionChars[i])
+        .setStyle(ButtonStyle.Secondary)
+        .setDisabled(type == 'push' ? false : !(await available(i, game, player)));
+}));
 
 async function available(dir, game, player) {
     let translation = translations[dir];

@@ -1,6 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const db = require.main.require('./models');
-const cfg = require('../../cfg.json');
 const isMod = require('../../fn/isMod');
 
 module.exports = async interaction => {
@@ -25,7 +24,7 @@ module.exports = async interaction => {
         } while (locations.some(l => l[0] == loc[0] && l[1] == loc[1]))
         locations.push(loc);
 
-        await player.update({x: loc[0], y: loc[1], health: game.startingHearts, range: game.startingRange});
+        await player.update({x: loc[0], y: loc[1], health: game.startingHearts, range: game.startingRange, actions: game.startingActions});
         res();
     })));
 

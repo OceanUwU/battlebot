@@ -15,10 +15,10 @@ module.exports = async interaction => {
     
     await interaction.deferUpdate();
     let newHealth = shooting.health-1;
-    let actionsAcquired = (newHealth <= 0) ? shooting.actions : 0;
+    let actionsAcquired = (newHealth <= 0 && game.stealActions) ? shooting.actions : 0;
     await player.increment('actions', {by: actionsAcquired-cost});
     await player.reload();
-    await shooting.update({health: newHealth, alive: newHealth > 0, actions: newHealth <= 0 ? 0 : shooting.actions, deathTime: newHealth <= 0 ? Date.now() : null});
+    await shooting.update({health: newHealth, alive: newHealth > 0, actions: (newHealth <= 0 && game.stealActions) ? 0 : shooting.actions, deathTime: newHealth <= 0 ? Date.now() : null});
     await game.log(`<@${player.user}> (${await player.getName()}) SHOT <@${shooting.user}>, bringing them down to ${newHealth} heart${newHealth == 1 ? '' : 's'}!${newHealth <= 0 ? `\n<@${shooting.user}> died, and is now part of the jury. They can no longer use **/c**, but they can now **/vote** to vote on someone who they want to receive extra AP.` : ''}`, true, [shooting.user]);
     
     //end game if needed
@@ -26,7 +26,8 @@ module.exports = async interaction => {
         await game.end();
     else if (newHealth <= 0) {
         await interaction.editReply(await player.controlCentre());
-        await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`);
+        if (game.stealActions)
+            await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`);
     } else
         await interaction.editReply({...await player.controlCentre(), components: interaction.message.components});
 };

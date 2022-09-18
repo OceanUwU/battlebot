@@ -31,11 +31,13 @@ db.Game.prototype.render = async function(zoomPlayer) {
     ctx.fillStyle = textColor;
     for (let x = 0; x <= this.width; x++) { //vertical grid lines
         ctx.fillRect(squareSize+(fullSquareSize*x), squareSize, gridlineSize, fullSquareSize*this.height+gridlineSize);
-        ctx.fillText(rankNames[x], fullSquareSize*(x+1)+(squareSize/2), squareSize/2);
+        if (x < this.width)
+            ctx.fillText(rankNames[x], fullSquareSize*(x+1)+(squareSize/2), squareSize/2);
     }
     for (let y = 0; y <= this.height; y++) { //horizontal grid lines
         ctx.fillRect(squareSize, squareSize+(fullSquareSize*y), fullSquareSize*this.width+gridlineSize, gridlineSize);
-        ctx.fillText(y+1, squareSize/2, fullSquareSize*(y+1)+(squareSize/2));
+        if (y < this.height)
+            ctx.fillText(y+1, squareSize/2, fullSquareSize*(y+1)+(squareSize/2));
     }
 
     //write tile names
@@ -43,7 +45,7 @@ db.Game.prototype.render = async function(zoomPlayer) {
     for (let x = 0; x < this.width; x++) {
         for (let y = 0; y < this.width; y++) {
             ctx.fillStyle = textColor+'88';
-            ctx.fillText(`${rankNames[x]}${y+1}`, fullSquareSize*(x+1)+(squareSize/2), fullSquareSize*(y+1)+(squareSize/2));
+            ctx.fillText(db.Game.tileName(x, y), fullSquareSize*(x+1)+(squareSize/2), fullSquareSize*(y+1)+(squareSize/2));
         }
     }
 

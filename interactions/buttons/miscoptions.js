@@ -1,15 +1,15 @@
 const db = require.main.require('./models');
 const isMod = require('../../fn/isMod');
 
-module.exports = async interaction => {
+const options = ['stealActions', 'diagonals', 'allowPushing', 'allowGifting', 'allowUpgrading'];
+
+module.exports = async (interaction, type) => {
     let game = await db.Game.findOne({where: {channel: interaction.channelId}});
     if (!game)
         return interaction.reply({content: 'Couldn\'t find this game.', ephemeral: true});
     if (!isMod(interaction))
         return interaction.reply({content: 'You must have the Manage Server permission to change this.', ephemeral: true});
-    if (game.started)
-        return interaction.reply({content: 'You can\'t change this after the game has started.', ephemeral: true});
-    let [width, height] = interaction.values[0].split('x').map(n => Number(n));
-    await game.update({width, height});
+    let option = options[type];
+    await game.update({[option]: !game[option]});
     await game.editSettingsMessage(interaction);
 };

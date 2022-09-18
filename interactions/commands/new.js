@@ -34,13 +34,6 @@ module.exports = {
             new ActionRowBuilder()
                 .addComponents(
                     new SelectMenuBuilder()
-                        .setCustomId('boardsize')
-                        .setPlaceholder('Board size')
-                        .addOptions([[8, 8], [12, 8], [12, 12], [16, 12], [20, 12], [20, 16], [20, 20]].map(s => `${s[0]}x${s[1]}`).map(s => ({label: s, value: s}))),
-                ),
-            new ActionRowBuilder()
-                .addComponents(
-                    new SelectMenuBuilder()
                         .setCustomId('pointrate')
                         .setPlaceholder('AP distribution interval')
                         .addOptions(pointRates.map(pr => ({
@@ -52,43 +45,93 @@ module.exports = {
             new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('drops0')
-                        .setLabel('Toggle Heart Drops')
+                        .setCustomId('miscoptions0')
+                        .setLabel('AP steal')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('drops1')
-                        .setLabel('Toggle Battery Drops')
+                        .setCustomId('miscoptions1')
+                        .setLabel('Diagonal')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('drops2')
-                        .setLabel('Toggle Range Drops')
+                        .setCustomId('miscoptions2')
+                        .setLabel('Pushing')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('drops3')
-                        .setLabel('Toggle Portals')
+                        .setCustomId('miscoptions3')
+                        .setLabel('Gifting')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('drops4')
-                        .setLabel('Toggle Black Holes')
+                        .setCustomId('miscoptions4')
+                        .setLabel('Upgrading')
                         .setStyle(ButtonStyle.Secondary),
                 ),
             new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
+                        .setCustomId('boardsize1')
+                        .setLabel('w-')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('boardsize0')
+                        .setLabel('w+')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('boardsize3')
+                        .setLabel('h-')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('boardsize2')
+                        .setLabel('h+')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('startingactions0')
+                        .setLabel('AP-')
+                        .setStyle(ButtonStyle.Secondary),
+                ),
+            new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('startinghearts0')
+                        .setLabel('♥-')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
                         .setCustomId('startinghearts1')
                         .setLabel('♥+')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('startinghearts0')
-                        .setLabel('♥-')
+                        .setCustomId('startingrange0')
+                        .setLabel('r-')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('startingrange1')
                         .setLabel('r+')
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
-                        .setCustomId('startingrange0')
-                        .setLabel('r-')
+                        .setCustomId('startingactions1')
+                        .setLabel('AP+')
+                        .setStyle(ButtonStyle.Secondary),
+                ),
+            new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('drops0')
+                        .setLabel('Heart Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops1')
+                        .setLabel('Battery Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops2')
+                        .setLabel('Range Drops')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops3')
+                        .setLabel('Portals')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('drops4')
+                        .setLabel('Black Holes')
                         .setStyle(ButtonStyle.Secondary),
                 ),
         ]});
@@ -116,12 +159,22 @@ module.exports = {
             started: false,
             finished: false,
             joinMenu: joinMenu.id,
-            pointRate: 24 * 60 * 60 * 1000,
+            pointRate: 12 * 60 * 60 * 1000,
             heartDrops: true,
+            batteryDrops: true,
+            rangeDrops: false,
+            portalDrops: true,
+            blackHoleDrops: false,
             startingHearts: 3,
             startingRange: 2,
+            startingActions: 0,
             width: 20,
             height: 12,
+            stealActions: true,
+            diagonals: true,
+            allowPushing: true,
+            allowGifting: true,
+            allowUpgrading: true,
             channel: interaction.channelId,
         });
         await game.editSettingsMessage(settingsMenu);
