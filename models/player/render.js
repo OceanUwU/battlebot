@@ -9,6 +9,7 @@ const images = {
     heart: [loadImage('./heartempty.png'), loadImage('./heartfull.png')],
     icons: {
         white: loadImage('./icons/white.png'),
+        black: loadImage('./icons/white.png'),
         battlebot: loadImage('./icons/battlebot.png'),
         player: loadImage('./icons/player.png'),
         first: loadImage('./icons/first.png'),
@@ -87,7 +88,7 @@ db.Player.prototype.render = async function() {
             break;
     }
     ctx.fillRect(0, 0, size, size);
-
+    
     //write player name
     let name = this.name.slice(0, 10).trim();
     ctx.font = `${Math.min(size*0.4, size*(1.25/name.length))}px Arial`;
@@ -104,9 +105,15 @@ db.Player.prototype.render = async function() {
         ctx.font = `${size*0.21}px Arial`;
         ctx.fillText(`x${this.health}`, (size/(maxHearts+1))*2.8-(heartSize/2), size*0.8);
     } else
-        for (let i = 0; i < maxHearts; i++) {
+        for (let i = 0; i < maxHearts; i++)
             ctx.drawImage(await images.heart[Number(i < this.health)], (size/(maxHearts+1))*(i+1)-(heartSize/2), size*0.7, heartSize, heartSize);
-        }
+    
+    if (this.config.image == 'black') {
+        ctx.globalCompositeOperation='difference';
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, size, size);
+        ctx.globalCompositeOperation = 'source-over';
+    }
 
     //draw death cross
     if (!this.alive) {

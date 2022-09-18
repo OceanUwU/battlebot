@@ -50,7 +50,7 @@ module.exports = async interaction => {
                     new SelectMenuBuilder()
                         .setCustomId('image')
                         .setPlaceholder('Background')
-                        .addOptions([{name: 'white'}, ...await db.Image.findAll({where: {user: interaction.user.id}})].map(i => ({
+                        .addOptions([{name: 'white'}, {name: 'black'}, ...await db.Image.findAll({where: {user: interaction.user.id}})].map(i => ({
                             label: i.name.slice(0,1).toUpperCase() + i.name.slice(1),
                             value: i.name,
                         }))),
