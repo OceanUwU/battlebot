@@ -8,6 +8,7 @@ db.Player.prototype.eatDrop = async function() {
     switch (drop.type) {
         case 0:
             await this.increment('health');
+            await this.update({alive: true});
             return `They picked up a heart and healed to ${this.health+1} health.`;
         case 1:
             await this.increment('actions', {by: 3});
