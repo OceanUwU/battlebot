@@ -10,7 +10,7 @@ module.exports = async (boards, endMessage, gameId) => {
         boards = boards.map(board => `https://cdn.discordapp.com/attachments/${endMessage.channel.id}/${board.file}/file.jpg`);
         for (let board of boards) {
             let img = await loadImage(board);
-            let canvas = createCanvas(img.width/2, img.width/2);
+            let canvas = createCanvas(img.width/2, img.height/2);
             canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
             if (encoder == undefined)
                 encoder = new (await Gif).Gif(canvas.width, canvas.height, 75);
