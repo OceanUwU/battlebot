@@ -18,7 +18,7 @@ async function giveBackground(player, background) {
 db.Game.prototype.end = async function() {
     let winners = await this.getPlayers({alive: true});
     let losers = await db.Player.findAll({order: [['deathTime', 'DESC']], where: {gameId: this.id, alive: false}});
-    let endMessage = await this.log(`GAME OVER! ${winners.length > 1 ? `${winners.slice(0, winners.length-1).map(p => `<@${p.user}>`).join(', ')} and <@${winners[winners.length-1].user}>` : `<@${winners[0].user}>`} WON!\n\nFinal standings:${winners.map(p => `\n1: <@${p.user}> (${p.actions} AP left over)`)}${losers.map((p,i) => `\n${winners.length+i+1}: <@${p.user}>`).join('')}\n\nFinal board:`, true, [...winners, ...losers].map(p => p.user));
+    let endMessage = await this.log(`GAME OVER! ${winners.length > 1 ? `${winners.slice(0, winners.length-1).map(p => `<@${p.user}>`).join(', ')} and <@${winners[winners.length-1].user}>` : `<@${winners[0].user}>`} WON!\n\nFinal standings:${winners.map(p => `\n1: <@${p.user}> (${p.actions} AP left over)`)}${losers.map((p,i) => `\n${winners.length+i+1}: <@${p.user}>`).join('')}\n\nHistory:\n(generating gif...)`, false, [...winners, ...losers].map(p => p.user));
     //give out backgrounds
     if (this.channel == cfg.mainChannel) {
         for (let player of [...winners, ...losers])

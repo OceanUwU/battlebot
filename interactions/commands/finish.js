@@ -11,6 +11,7 @@ module.exports = {
         if (!isMod(interaction))
             return interaction.reply({content: 'You must have the Manage Server permission to use this command.', ephemeral: true});
         await interaction.deferReply();
+        await interaction.editReply({content: 'Ending game...'});
         await game.end();
         await interaction.editReply({content: 'Game ended.'});
     }
