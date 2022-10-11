@@ -6,20 +6,16 @@ const cfg = require.main.require('./cfg.json');
 
 module.exports = async (boards, endMessage, gameId) => {
     try {
-        let sizes = [];
-        let files = await Promise.all(
-            (await Promise.all(
-                boards.map(board => `https://cdn.discordapp.com/attachments/${endMessage.channel.id}/${board.file}/file.jpg`)
-                    .map(board => loadImage(board)))
-            ).map(board => new Promise(async res => {
-                sizes = [board.width/2, board.height/2];
-                let canvas = createCanvas(sizes[0], sizes[1]);
-                canvas.getContext('2d').drawImage(board, 0, 0, canvas.width, canvas.height);
-                res({src: canvas.toBuffer()});
-            }))
-        );
-        let encoder = new (await Gif).Gif(sizes[0], sizes[1], 75);
-        await encoder.setFrames(files);
+        let encoder;
+        boards = boards.map(board => `https://cdn.discordapp.com/attachments/${endMessage.channel.id}/${board.file}/file.jpg`);
+        for (let board of boards) {
+            let img = await loadImage(board);
+            let canvas = createCanvas(img.width/2, img.width/2);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            if (encoder == undefined)
+                encoder = new (await Gif).Gif(canvas.width, canvas.height, 75);
+            await encoder.addFrame({src: canvas.toBuffer()});
+        }
         await endMessage.edit({
             content: endMessage.content.replace('(generating gif...)', (await imgbbUploader({
                 apiKey: cfg.imgbbkey,
