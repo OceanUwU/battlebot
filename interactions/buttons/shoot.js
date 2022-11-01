@@ -27,7 +27,7 @@ module.exports = async interaction => {
     else if (newHealth <= 0) {
         await interaction.editReply(await player.controlCentre());
         if (game.stealActions)
-            await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`);
+            await interaction.user.send(`You killed <@${shooting.user}> (${shooting.name}) in <#${interaction.channel.id}> (#${interaction.channel.name}). Their ${actionsAcquired} action points were transferred to you.`).catch(e=>{});
     } else
         await interaction.editReply({...await player.controlCentre(), components: interaction.message.components});
 };

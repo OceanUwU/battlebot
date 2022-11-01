@@ -18,7 +18,7 @@ module.exports = async (interaction, type) => {
         await player.decrement('actions');
         await player.reload();
         await gifting.increment('actions');
-        await (await interaction.client.users.fetch(gifting.user)).send(`<@${interaction.user.id}> (${interaction.user.username}${interaction.member.nickname == null ? '' : ` / ${interaction.member.nickname}`}) GIFTed you 1 AP in <#${interaction.channel.id}> (#${interaction.channel.name}).`);
+        await (await interaction.client.users.fetch(gifting.user))?.send(`<@${interaction.user.id}> (${interaction.user.username}${interaction.member.nickname == null ? '' : ` / ${interaction.member.nickname}`}) GIFTed you 1 AP in <#${interaction.channel.id}> (#${interaction.channel.name}).`).catch(e=>{});
     } else if (type == 1) { //health
         await interaction.deferUpdate();
         await player.update({health: player.health-1, alive: player.health > 1, deathTime: player.health == 1 ? Date.now() : null});

@@ -11,7 +11,7 @@ async function giveBackground(player, background) {
     if (!user) return;
     if (await db.Image.count({where: {user: user.id, name: background}}) == 0) {
         db.Image.create({user: user.id, name: background});
-        user.send(`You've earned the \`${background[0].toUpperCase()}${background.slice(1)}\` background! Use **/customise** to equip it.`);
+        user.send(`You've earned the \`${background[0].toUpperCase()}${background.slice(1)}\` background! Use **/customise** to equip it.`).catch(e=>{});
     }
 }
 
