@@ -178,6 +178,6 @@ module.exports = {
             channel: interaction.channelId,
         });
         await game.editSettingsMessage(settingsMenu);
-        await game.editPlayerList(joinMenu);
+        await game.editPlayerList();
     }
 };
