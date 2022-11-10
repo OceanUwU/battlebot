@@ -13,8 +13,6 @@ module.exports = async interaction => {
     await db.Player.create({
         gameId: game.id,
         user: interaction.user.id,
-        alive: true,
-        actions: 0,
     });
     //add user to the player list in message
     await game.editPlayerList();

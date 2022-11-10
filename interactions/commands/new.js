@@ -178,6 +178,16 @@ module.exports = {
             channel: interaction.channelId,
         });
         await game.editSettingsMessage(settingsMenu);
+
+        let preregistrations = await db.Preregistration.findAll({where: {channel: interaction.channelId}});
+        for (let preregistration of preregistrations)
+            await db.Player.create({
+                gameId: game.id,
+                user: preregistration.user,
+            });
+        if (preregistrations.length > 0)
+            await joinMenu.reply(`${preregistrations.map(e => `<@${e.user}>`).join('')}\nYou pre-registered for this game and have been automatically entered.`);
+        await db.Preregistration.destroy({where: {channel: interaction.channelId}});
         await game.editPlayerList();
     }
 };
