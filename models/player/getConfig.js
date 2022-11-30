@@ -10,7 +10,7 @@ db.Player.prototype.getConfig = async function() {
                 colour1: randomColour(),
                 colour2: randomColour(),
                 style: 'diagonal',
-                image: 'white',
+                image: 'avatar',
             });
         }
     }

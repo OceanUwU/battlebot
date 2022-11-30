@@ -6,7 +6,7 @@ const styleSelector = new ActionRowBuilder()
         new SelectMenuBuilder()
             .setCustomId('style')
             .setPlaceholder('Overlay')
-            .addOptions(['None', 'Diagonal', 'Circle', 'Waves', 'Stripes'].map(i => ({
+            .addOptions(['None', 'Diagonal', 'Radial', 'Waves', 'Stripes', "Circles", "Hexagonal", "Peaks", "Spiral"].map(i => ({
                 label: i,
                 value: i.toLowerCase(),
             }))),
@@ -30,6 +30,13 @@ const colourRandomisers = new ActionRowBuilder()
             .setLabel('Randomise both colours')
             .setStyle(ButtonStyle.Secondary),
     );
+const inverter = new ActionRowBuilder()
+    .addComponents(
+        new ButtonBuilder()
+            .setCustomId('invert')
+            .setLabel('Invert')
+            .setStyle(ButtonStyle.Secondary),
+    );
 
 module.exports = async interaction => {
     let pseudoPlayer = await db.Player.build({
@@ -50,13 +57,14 @@ module.exports = async interaction => {
                     new SelectMenuBuilder()
                         .setCustomId('image')
                         .setPlaceholder('Background')
-                        .addOptions([{name: 'white'}, {name: 'black'}, ...await db.Image.findAll({where: {user: interaction.user.id}})].map(i => ({
+                        .addOptions([{name: 'none'}, {name: 'avatar'}, ...await db.Image.findAll({where: {user: interaction.user.id}})].map(i => ({
                             label: i.name.slice(0,1).toUpperCase() + i.name.slice(1),
                             value: i.name,
                         }))),
                 ),
             styleSelector,
-            colourRandomisers
+            colourRandomisers,
+            inverter
         ],
     };
 }

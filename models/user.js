@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     colour1: DataTypes.STRING,
     colour2: DataTypes.STRING,
     style: DataTypes.STRING,
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
+    inverted: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',
