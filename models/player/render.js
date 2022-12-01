@@ -203,7 +203,6 @@ db.Player.prototype.render = async function() {
         ctx.fillRect(0, 0, size, size);
         ctx.globalCompositeOperation = 'source-over';
     }
-    return canvas;
 
     //draw death cross
     if (!this.alive) {
