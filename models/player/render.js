@@ -55,8 +55,10 @@ db.Player.prototype.render = async function() {
     if (this.config.image == "avatar") {
         ctx.globalAlpha = 0.6;
         let user = await bot.users.fetch(this.user);
-        if (user)
-            ctx.drawImage(await loadImage(user.displayAvatarURL({size:128}).replace('webp','png')), 0, 0, 100, 100);
+        if (user) {
+            try {
+                ctx.drawImage(await loadImage(user.displayAvatarURL({size:128}).replace('webp','png')), 0, 0, 100, 100);
+            } catch {}}
         ctx.globalAlpha = 1;
     } else
         ctx.drawImage(await images.icons[this.config.image], 0, 0, size, size);
