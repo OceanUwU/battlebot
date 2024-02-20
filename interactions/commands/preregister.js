@@ -13,6 +13,6 @@ module.exports = {
         if (await db.Preregistration.count({where: {channel: details.channel}}) >= 25)
             return interaction.reply({content: 'The maximum amount of people have already pre-registered for this game.', ephemeral: true});
         await db.Preregistration.create(details);
-        await interaction.reply({content: `<@${details.user}> pre-registered for the next game.`, allowedMentions: []});
+        await interaction.reply({content: `<@${details.user}> pre-registered for the next game.`, allowedMentions: {}});
     }
 };
