@@ -7,8 +7,10 @@ const cfg = require.main.require('./cfg.json');
 module.exports = async (boards, endMessage, gameId) => {
     try {
         let encoder;
-        boards = boards.map(board => `https://cdn.discordapp.com/attachments/${endMessage.channel.id}/${board.file}/file.jpg`);
+        
+        boards = await Promise.all(boards.map(async board => (await endMessage.channel.messages.fetch(board.file))?.attachments.first().url));
         for (let board of boards) {
+            if (!board) continue;
             let img = await loadImage(board);
             let canvas = createCanvas(img.width/2, img.height/2);
             canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
