@@ -43,7 +43,7 @@ db.Game.prototype.render = async function(zoomPlayer) {
     //write tile names
     ctx.font = `${squareSize*0.3}px Arial`;
     for (let x = 0; x < this.width; x++) {
-        for (let y = 0; y < this.width; y++) {
+        for (let y = 0; y < this.height; y++) {
             ctx.fillStyle = textColor+'88';
             ctx.fillText(db.Game.tileName(x, y), fullSquareSize*(x+1)+(squareSize/2), fullSquareSize*(y+1)+(squareSize/2));
         }
