@@ -8,7 +8,7 @@ module.exports = async (boards, endMessage, gameId) => {
     try {
         let encoder;
         
-        boards = await Promise.all(boards.map(async board => (await endMessage.channel.messages.fetch(board.file))?.attachments.first().url));
+        boards = await Promise.all(boards.map(async board => (await endMessage.channel.messages.fetch(board.file).catch(e => {}))?.attachments.first().url));
         for (let board of boards) {
             if (!board) continue;
             let img = await loadImage(board);
