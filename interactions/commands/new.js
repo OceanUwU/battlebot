@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SelectMenuBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } = require('discord.js');
 const db = require.main.require('./models');
 const isMod = require('../../fn/isMod');
 const pointRates = require('../../consts/pointRates');
@@ -33,7 +33,7 @@ module.exports = {
         let settingsMenu = await interaction.channel.send({content: '**__GAME SETTINGS__** (only mods may change these):', components: [
             new ActionRowBuilder()
                 .addComponents(
-                    new SelectMenuBuilder()
+                    new StringSelectMenuBuilder()
                         .setCustomId('pointrate')
                         .setPlaceholder('AP distribution interval')
                         .addOptions(pointRates.map(pr => ({

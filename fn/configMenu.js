@@ -1,9 +1,9 @@
 const db = require.main.require('./models');
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SelectMenuBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } = require('discord.js');
 
 const styleSelector = new ActionRowBuilder()
     .addComponents(
-        new SelectMenuBuilder()
+        new StringSelectMenuBuilder()
             .setCustomId('style')
             .setPlaceholder('Overlay')
             .addOptions(['None', 'Diagonal', 'Radial', 'Waves', 'Stripes', "Circles", "Hexagonal", "Peaks", "Spiral"].map(i => ({
@@ -54,7 +54,7 @@ module.exports = async interaction => {
         components: [
             new ActionRowBuilder()
                 .addComponents(
-                    new SelectMenuBuilder()
+                    new StringSelectMenuBuilder()
                         .setCustomId('image')
                         .setPlaceholder('Background')
                         .addOptions([{name: 'none'}, {name: 'avatar'}, ...await db.Image.findAll({where: {user: interaction.user.id}})].map(i => ({

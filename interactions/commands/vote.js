@@ -1,5 +1,5 @@
 const db = require.main.require('./models');
-const { ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const controlOnly = require('../../fn/controlOnly');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
             components: [
                 new ActionRowBuilder()
                     .addComponents(
-                        new SelectMenuBuilder()
+                        new StringSelectMenuBuilder()
                             .setCustomId('vote')
                             .setPlaceholder('Vote')
                             .addOptions([{
