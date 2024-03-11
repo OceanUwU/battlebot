@@ -35,7 +35,7 @@ module.exports = async (interaction, direction) => {
     await pushing.update({x, y});
     let dropMessage = await pushing.eatDrop();
 
-    await game.log(`<@${player.user}> (${await player.getName()}) PUSHed <@${pushing.user}> 'to' ${db.Game.tileName(x, y)}.\n${dropMessage}`, [pushing.user]);
+    await game.log(`<@${player.user}> (${await player.getName()}) PUSHed <@${pushing.user}> 'to' ${db.Game.tileName(x, y)}.${dropMessage}`, [pushing.user]);
     let updateData = await pushmenu(interaction, false);
     if (updateData === null)
         await interaction.editReply(await player.controlCentre());

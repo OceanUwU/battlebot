@@ -27,6 +27,6 @@ module.exports = async (interaction, direction) => {
     await interaction.deferUpdate();
     await player.update({x, y, actions: player.actions - cost});
     let dropMessage = await player.eatDrop();
-    await game.log(`<@${player.user}> (${await player.getName()}) MOVEd to ${db.Game.tileName(x, y)}.\n${dropMessage}`);
+    await game.log(`<@${player.user}> (${await player.getName()}) MOVEd to ${db.Game.tileName(x, y)}.${dropMessage}`);
     await interaction.editReply(await moveMenu(interaction, game, await db.Player.findOne({where: {id: player.id}}), 'move'));
 };
