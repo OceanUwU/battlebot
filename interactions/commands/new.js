@@ -193,6 +193,7 @@ module.exports = {
             finished: false,
             joinMenu: joinMenu.id,
             pointRate: 12 * 60 * 60 * 1000,
+            votesneeded: 3,
             heartDrops: true,
             batteryDrops: true,
             rangeDrops: false,
