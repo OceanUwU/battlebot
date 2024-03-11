@@ -1,7 +1,7 @@
 const db = require.main.require('./models');
 const isMod = require('../../fn/isMod');
 
-const dropTypes = ['heart', 'battery', 'range', 'portal', 'blackHole'];
+const dropTypes = ['heart', 'battery', 'range', 'portal', 'blackHole', 'spike'];
 
 module.exports = async (interaction, dropType) => {
     let game = await db.Game.findOne({where: {channel: interaction.channelId}});

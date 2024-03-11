@@ -78,6 +78,13 @@ module.exports = {
                             .setCustomId('drops2')
                             .setLabel('Range Drops')
                             .setStyle(ButtonStyle.Secondary),
+                    ),
+                new ActionRowBuilder()
+                    .addComponents(
+                        new ButtonBuilder()
+                            .setCustomId('drops5')
+                            .setLabel('Spikes')
+                            .setStyle(ButtonStyle.Secondary),
                         new ButtonBuilder()
                             .setCustomId('drops3')
                             .setLabel('Portals')
