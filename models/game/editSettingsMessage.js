@@ -24,6 +24,7 @@ Black Hole: ${isOn(this.blackHoleDrops)}
         case 1:
             text = `
 Starting Stats: **${this.startingHearts} ❤️    ${this.startingRange} 🏹    ${this.startingActions} 🪙**
+Votes: ${this.votesneeded == 0 ? "Disabled" : (this.votesneeded == -1 ? "Hauntings" : `${this.votesneeded} needed per AP`)}
 AP is stolen on kill: ${isOn(this.stealActions)}
 Diagonal movement: ${isOn(this.diagonals)}
 Allow pushing: ${isOn(this.allowPushing)}

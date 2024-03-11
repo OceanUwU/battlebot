@@ -131,7 +131,7 @@ module.exports = {
                                     description: "Players won't be able to vote.",
                                     value: "0"
                                 },
-                                ...[1, 2, 3, 5].map(n => ({
+                                ...[1, 2, 3, 4, 5].map(n => ({
                                     label: `${n} vote${n == 1 ? '' : 's'} per AP`,
                                     description: `Players will receive an extra AP from distributions for each ${n == 1 ? 'vote' : `${n} votes`} they have.`,
                                     value: String(n)
