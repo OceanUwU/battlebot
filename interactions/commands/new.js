@@ -129,17 +129,17 @@ module.exports = {
                                 {
                                     label: "Voting Disabled",
                                     description: "Players won't be able to vote.",
-                                    value: 0
+                                    value: "0"
                                 },
                                 ...[1, 2, 3, 5].map(n => ({
-                                    label: `${n} votes per AP`,
+                                    label: `${n} vote${n == 1 ? '' : 's'} per AP`,
                                     description: `Players will receive an extra AP from distributions for each ${n == 1 ? 'vote' : `${n} votes`} they have.`,
-                                    value: n
+                                    value: String(n)
                                 })),
                                 {
                                     label: "Hauntings",
                                     description: "The player with the most votes will receive no AP from distributions.",
-                                    value: -1
+                                    value: "-1"
                                 }
                             ]),
                     ),
