@@ -1,10 +1,13 @@
 const { Op } = require('sequelize');
 const db = require('../');
 
+const spikeDamage = 1;
+
 db.Player.prototype.eatDrop = async function() {
     let drop = await db.Heart.findOne({where: {game: this.game.id, x: this.x, y: this.y}});
     if (drop == null) return '';
-    await drop.destroy();
+    if (drop.type != 5) //if not spikes
+        await drop.destroy();
     switch (drop.type) {
         case 0:
             await this.increment('health');
@@ -28,5 +31,12 @@ db.Player.prototype.eatDrop = async function() {
                     this.game.end();
                 return 'They fell into the black hole and died. The black hole closed.';
             } else return 'They moved into the black hole, but they\'re already dead! The black hole closed.';
+        case 5:
+            if (this.alive) {
+                await this.update({health: this.health - spikeDamage, alive: this.health > spikeDamage, deathTime: Date.now()});
+                if ((await db.Player.count({where: {gameId: this.game.id, alive: true}})) <= 1)
+                    this.game.end();
+                return this.health > spikeDamage ? 'They fell into spikes and lost 1 health.' : 'They fell into spikes and died!';
+            } else return 'They moved into spikes.';
     }
 };
