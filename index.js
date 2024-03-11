@@ -58,7 +58,7 @@ bot.on('interactionCreate', async interaction => {
 				await interaction.reply({ content: 'There was an error while trying to deal with this button press!', ephemeral: true });
 			} catch {}
 		}
-	} else if (interaction.isSelectMenu()) {
+	} else if (interaction.isStringSelectMenu()) {
 		if (!selectMenus.hasOwnProperty(interaction.customId)) return;
 	
 		try {
