@@ -1,8 +1,6 @@
 const { Op } = require("sequelize");
 const db = require.main.require('./models');
 
-const votesPerAction = 3;
-
 const getSpace = spaces => spaces.splice(Math.floor(Math.random() * spaces.length), 1)[0];
 
 db.Game.prototype.distribute = async function(interaction=null) {
@@ -10,11 +8,22 @@ db.Game.prototype.distribute = async function(interaction=null) {
     let logging = interaction == null ? 'AP distribution!\n' : `${interaction.user.username} distributed AP.\n\n`;
 
     //distribute ap
+    let highestVotes = 0;
+    let haunted = null;
     for (let player of players.filter(p => p.alive)) {
-        let votes = await player.getVotes();
-        let received = 1 + Math.floor(votes/votesPerAction);
+        player.votes = await player.getVotes();
+        if (player.votes == highestVotes)
+            haunted = null;
+        else if (player.votes > highestVotes) {
+            highestVotes = player.votes;
+            haunted = player.user;
+        }
+    }
+
+    for (let player of players.filter(p => p.alive)) {
+        let received = (this.votesneeded == -1 && player.user == haunted ? 0 : 1) + (this.votesneeded > 0 ? Math.floor(player.votes/this.votesneeded) : 0);
         await player.increment('actions', {by: received});
-        logging += `<@${player.user}>: +${received} AP${votes > 0 ? ` (${votes} votes)` : ''}\n`;
+        logging += `<@${player.user}>: +${received} AP${player.votes > 0 ? ` (${player.votes} votes)` : ''}\n`;
     }
     
     //generate drops
