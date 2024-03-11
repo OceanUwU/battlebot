@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     started: DataTypes.BOOLEAN,
     finished: DataTypes.BOOLEAN,
     pointRate: DataTypes.INTEGER,
+    votesneeded: DataTypes.INTEGER,
     nextPoint: DataTypes.INTEGER,
     heartDrops: DataTypes.BOOLEAN,
     batteryDrops: DataTypes.BOOLEAN,
