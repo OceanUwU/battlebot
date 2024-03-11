@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     rangeDrops: DataTypes.BOOLEAN,
     portalDrops: DataTypes.BOOLEAN,
     blackHoleDrops: DataTypes.BOOLEAN,
+    spikeDrops: DataTypes.BOOLEAN,
     channel: DataTypes.STRING,
     joinMenu: DataTypes.STRING,
     startingHearts: DataTypes.INTEGER,

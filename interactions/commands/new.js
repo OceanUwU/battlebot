@@ -199,6 +199,7 @@ module.exports = {
             rangeDrops: false,
             portalDrops: true,
             blackHoleDrops: false,
+            spikeDrops: false,
             startingHearts: 3,
             startingRange: 2,
             startingActions: 0,

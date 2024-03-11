@@ -16,6 +16,7 @@ Board size: ${this.width}x${this.height}
 Hearts: ${isOn(this.heartDrops)}
 Batteries: ${isOn(this.batteryDrops)}
 Range: ${isOn(this.rangeDrops)}
+Spikes: ${isOn(this.spikeDrops)}
 Portal: ${isOn(this.portalDrops)}
 Black Hole: ${isOn(this.blackHoleDrops)}
             `;
