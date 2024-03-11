@@ -28,10 +28,14 @@ db.Game.prototype.distribute = async function(interaction=null) {
     
     //generate drops
     await db.Heart.destroy({where: {game: this.id, type: {[Op.or]: [3, 4]}}});
-    let drops = await db.Heart.findAll({where: {game: this.id}});
+    let drops = await db.Heart.findAll({where: {game: this.id, type: {[Op.not]: 5}}});
+    let spikes = await db.Heart.findAll({where: {game: this.id, type: 5}});
     let takenSpaces = [...players, ...drops].map(t => [t.x, t.y]);
+    let spikeSpaces = [...players, ...spikes.filter(s => !players.some(p => p.x == s.x && p.y == s.y))].map(t => [t.x, t.y]);
     let emptySpaces = [].concat.apply([], Array(this.width).fill(null).map((e, i) => Array(this.height).fill(null).map((e2, i2) => [i, i2])))
         .filter(space => takenSpaces.find(s => s[0] == space[0] && s[1] == space[1]) == undefined);
+    let spikelessSpaces = [].concat.apply([], Array(this.width).fill(null).map((e, i) => Array(this.height).fill(null).map((e2, i2) => [i, i2])))
+        .filter(space => spikeSpaces.find(s => s[0] == space[0] && s[1] == space[1]) == undefined);
     if (this.heartDrops && emptySpaces.length > 0) {
         let space = getSpace(emptySpaces);
         await db.Heart.create({game: this.id, type: 0, x: space[0], y: space[1]});
@@ -46,6 +50,11 @@ db.Game.prototype.distribute = async function(interaction=null) {
         let space = getSpace(emptySpaces);
         await db.Heart.create({game: this.id, type: 2, x: space[0], y: space[1]});
         logging += `\nRange buff spawned at ${db.Game.tileName(space[0], space[1])}.`;
+    }
+    if (this.spikeDrops && spikelessSpaces.length > 0 && spikes.length < 25) {
+        let space = getSpace(spikelessSpaces);
+        await db.Heart.create({game: this.id, type: 5, x: space[0], y: space[1]});
+        logging += `\nSpike spawned at ${db.Game.tileName(space[0], space[1])}.`;
     }
     if (this.portalDrops && emptySpaces.length > 1) {
         let spaces = [];
