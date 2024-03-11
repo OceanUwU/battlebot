@@ -20,15 +20,18 @@ db.Player.prototype.eatDrop = async function() {
             case 1:
                 await this.increment('actions', {by: 3});
                 resultText += `\nThey ate a battery and gained ${3} AP.`;
+                break;
             case 2:
                 await this.increment('range');
                 resultText += `\nThey picked up a range buff, increasing their range to ${this.range+1}.`;
+                break;
             case 3:
                 let exit = await db.Heart.findOne({where: {game: this.game.id, type: 3, id: {[Op.not]: drop.id}}});
                 await exit.destroy();
                 await this.update({x: exit.x, y: exit.y});
                 resultText += `\nThey stepped into the portal and got transported to ${db.Game.tileName(exit.x, exit.y)}. The portal closed.`;
                 resultText += this.eatDrop();
+                break;
             case 4:
                 if (this.alive) {
                     await this.update({health: 0, alive: false, deathTime: Date.now()});
@@ -36,6 +39,7 @@ db.Player.prototype.eatDrop = async function() {
                         this.game.end();
                     resultText += '\nThey fell into the black hole and died. The black hole closed.';
                 } else resultText += '\nThey moved into the black hole, but they\'re already dead! The black hole closed.';
+                break;
             case 5:
                 if (this.alive) {
                     await this.update({health: this.health - spikeDamage, alive: this.health > spikeDamage, deathTime: Date.now()});
@@ -43,6 +47,7 @@ db.Player.prototype.eatDrop = async function() {
                         this.game.end();
                         resultText += this.health > spikeDamage ? '\nThey fell into spikes and lost 1 health.' : '\nThey fell into spikes and died!';
                 } else resultText += '\nThey moved onto spikes.';
+                break;
         }
     }
     return resultText;
