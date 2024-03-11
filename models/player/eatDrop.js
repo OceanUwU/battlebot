@@ -6,6 +6,7 @@ const spikeDamage = 1;
 db.Player.prototype.eatDrop = async function() {
     let resultText = '';
     let drops = await db.Heart.findAll({where: {game: this.game.id, x: this.x, y: this.y}});
+    drops.sort((a, b) => {if (a.type < b.type) return -1; else if (a.type > b.type) return 1; return 0;});
     for (let drop of drops) {
         if (drop == null) break;
         if (drop.type != 5) //if not spikes
@@ -14,7 +15,7 @@ db.Player.prototype.eatDrop = async function() {
             case 0:
                 await this.increment('health');
                 await this.update({alive: true});
-                resultText += `\nThey picked up a heart and healed to ${this.health+1} health.`;
+                resultText += `\nThey picked up a heart and healed to ${++this.health} health.`;
                 break;
             case 1:
                 await this.increment('actions', {by: 3});
