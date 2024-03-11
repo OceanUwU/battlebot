@@ -9,7 +9,7 @@ const fullSquareSize = squareSize+gridlineSize;
 const rankNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const images = {
     logo: loadImage('./docs/battlebot.png'),
-    drops: [loadImage('./heartdrop.png'), loadImage('./battery.png'), loadImage('./range.png'), loadImage('./portal.png'), loadImage('./blackhole.png')]
+    drops: [loadImage('./heartdrop.png'), loadImage('./battery.png'), loadImage('./range.png'), loadImage('./portal.png'), loadImage('./blackhole.png'), loadImage('./spikes.png')]
 };
 
 db.Game.prototype.render = async function(zoomPlayer) {
