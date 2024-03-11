@@ -13,5 +13,5 @@ module.exports = async (interaction, positive) => {
     else if (newStart > 19)
         return interaction.reply({content: 'Range cannot go above 19.', ephemeral: true});
     await game.update({startingRange: newStart});
-    await game.editSettingsMessage(interaction);
+    await game.editSettingsMessage(interaction, 1);
 };

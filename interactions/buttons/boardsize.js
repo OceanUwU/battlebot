@@ -16,5 +16,5 @@ module.exports = async (interaction, type) => {
     else if (val > 26)
         return interaction.reply({content: `Board ${dir} cannot go above 26.`, ephemeral: true});
     await game.update({[dir]: val});
-    await game.editSettingsMessage(interaction);
+    await game.editSettingsMessage(interaction, 0);
 };

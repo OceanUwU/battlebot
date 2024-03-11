@@ -11,5 +11,5 @@ module.exports = async (interaction, positive) => {
     if (newStart < 1)
         return interaction.reply({content: 'Starting hearts must be at least 1.', ephemeral: true});
     await game.update({startingHearts: newStart});
-    await game.editSettingsMessage(interaction);
+    await game.editSettingsMessage(interaction, 1);
 };

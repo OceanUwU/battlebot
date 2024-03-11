@@ -11,5 +11,5 @@ module.exports = async (interaction, positive) => {
     if (newStart < 0)
         return interaction.reply({content: 'Starting AP must be at least 0.', ephemeral: true});
     await game.update({startingActions: newStart});
-    await game.editSettingsMessage(interaction);
+    await game.editSettingsMessage(interaction, 1);
 };

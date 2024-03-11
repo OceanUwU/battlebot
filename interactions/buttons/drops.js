@@ -12,5 +12,5 @@ module.exports = async (interaction, dropType) => {
     if (!dropTypes.hasOwnProperty(dropType)) return;
     let toggling = dropTypes[dropType]+'Drops';
     await game.update({[toggling]: !game[toggling]});
-    await game.editSettingsMessage(interaction);
+    await game.editSettingsMessage(interaction, 0);
 };
