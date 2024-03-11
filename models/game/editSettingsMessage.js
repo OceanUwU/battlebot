@@ -33,6 +33,5 @@ Allow upgrading range: ${isOn(this.allowUpgrading)}
             break;
     }
 
-    console.log(text);
     await interaction[interaction instanceof Message ? 'edit' : 'update']({content: `${(interaction instanceof Message ? interaction : interaction.message).content.split('\n')[0]}\n${text}`});
 };
