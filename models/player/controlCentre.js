@@ -19,6 +19,10 @@ const components = {
         .setCustomId('heal')
         .setLabel('HEAL (3)')
         .setStyle(ButtonStyle.Success),
+    vote: new ButtonBuilder()
+        .setCustomId('vote')
+        .setLabel('VOTE (0)')
+        .setStyle(ButtonStyle.Secondary),
     upgrade: new ButtonBuilder()
         .setCustomId('upgrade')
         .setLabel('UPGRADE (3)')
@@ -43,6 +47,8 @@ db.Player.prototype.controlCentre = async function() {
     let row1 = [components.move, components.shoot];
     if (this.game.allowGifting)
         row1.push(components.gift)
+    if (this.game.votesneeded != 0)
+        row1.push(components.vote)
     
     let row2 = [components.heal];
     if (this.game.allowUpgrading)
