@@ -4,6 +4,7 @@ const db = require('../');
 const spikeDamage = 1;
 
 db.Player.prototype.eatDrop = async function() {
+    await this.getGame();
     let resultText = '';
     let drops = await db.Heart.findAll({where: {game: this.game.id, x: this.x, y: this.y}});
     drops.sort((a, b) => {if (a.type < b.type) return -1; else if (a.type > b.type) return 1; return 0;});
@@ -46,7 +47,7 @@ db.Player.prototype.eatDrop = async function() {
                     if ((await db.Player.count({where: {gameId: this.game.id, alive: true}})) <= 1)
                         this.game.end();
                         resultText += this.health > spikeDamage ? '\nThey fell into spikes and lost 1 health.' : '\nThey fell into spikes and died!';
-                } else resultText += '\nThey moved onto spikes.';
+                } else resultText += '\nThey\'re now on spikes.';
                 break;
         }
     }
