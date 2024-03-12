@@ -42,7 +42,7 @@ db.Player.prototype.eatDrop = async function() {
                 break;
             case 5:
                 if (this.alive) {
-                    await this.update({health: this.health - spikeDamage, alive: this.health > spikeDamage, deathTime: Date.now()});
+                    await this.update({health: Math.max(this.health - spikeDamage, 0), alive: this.health > spikeDamage, deathTime: Date.now()});
                     if ((await db.Player.count({where: {gameId: this.game.id, alive: true}})) <= 1)
                         this.game.end();
                         resultText += this.health > spikeDamage ? '\nThey fell into spikes and lost 1 health.' : '\nThey fell into spikes and died!';
