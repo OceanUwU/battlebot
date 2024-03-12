@@ -24,7 +24,7 @@ const createButtons = (game, player, type) => Promise.all(Array(8).fill(null).ma
         .setCustomId(`${type}${i}`)
         .setLabel(directionChars[i])
         .setStyle(ButtonStyle.Secondary)
-        .setDisabled(type == 'push' ? false : !(await available(i, game, player)));
+        .setDisabled(type == 'push' || type == 'pushspike' ? false : !(await available(i, game, player)));
 }));
 
 async function available(dir, game, player) {
