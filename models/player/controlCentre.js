@@ -27,6 +27,10 @@ const components = {
         .setCustomId('pushmenu')
         .setLabel('PUSH (1)')
         .setStyle(ButtonStyle.Secondary),
+    pushSpikes: new ButtonBuilder()
+        .setCustomId('pushspikemenu')
+        .setLabel('PUSH SPIKE (1)')
+        .setStyle(ButtonStyle.Secondary),
     refresh: new ButtonBuilder()
         .setCustomId('refresh')
         .setLabel('⟳')
@@ -43,12 +47,15 @@ db.Player.prototype.controlCentre = async function() {
     let row2 = [components.heal];
     if (this.game.allowUpgrading)
         row2.push(components.upgrade)
-    if (this.game.allowPushing)
+    if (this.game.allowPushing) {
         row2.push(components.push)
+        if (this.game.spikeDrops)
+            row2.push(components.pushSpikes)
+    }
     row2.push(components.refresh)
 
     return {
-        content: `YOU HAVE ${this.actions} ACTION POINTS.`,
+        content: `# ${this.actions} 🪙    ${this.health} ❤️    ${this.range} 🏹              ${db.Game.tileName(this.x, this.y)}`,
         files: [await this.game.render(this)],
         components: [new ActionRowBuilder().addComponents(row1), new ActionRowBuilder().addComponents(row2)],
     };
