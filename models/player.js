@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     colour2: DataTypes.STRING,
     alive: DataTypes.BOOLEAN,
     playerSelection: DataTypes.INTEGER,
+    spikeSelected: DataTypes.INTEGER,
     deathTime: DataTypes.INTEGER,
     x: DataTypes.INTEGER,
     y: DataTypes.INTEGER,
