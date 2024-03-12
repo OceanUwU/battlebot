@@ -39,6 +39,8 @@ module.exports = async (interaction, direction) => {
     
     let translation = translations[direction];
     let [x, y] = [spike.x+translation[0], spike.y+translation[1]];
+    if ((x < 0 || x >= game.width || y < 0 || y >= game.height))
+        return interaction.reply({content: 'Cannot push spikes off the board!', ephemeral: true});
     if ((await db.Heart.count({where: {game: game.id, type: 5, x, y}})) > 0)
         return interaction.reply({content: 'That tile already has a spike!', ephemeral: true});
 
