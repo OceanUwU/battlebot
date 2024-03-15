@@ -50,7 +50,7 @@ module.exports = async (interaction, direction) => {
     let dropMessage = '';
     let playerAtSpike = await db.Player.findOne({where: {gameId: game.id, x, y}});
     if (playerAtSpike != null) {
-        dropMessage = `\n<@${playerAtSpike.user}> (${await player.getName()}) was there.${await playerAtSpike.eatDrop()}`;
+        dropMessage = `\n<@${playerAtSpike.user}> (${await playerAtSpike.getName()}) was there.${await playerAtSpike.eatDrop()}`;
     }
 
     await game.log(`<@${player.user}> (${await player.getName()}) PUSHed the spike at ${db.Game.tileName(x-translation[0], y-translation[1])} to ${db.Game.tileName(x, y)}.${dropMessage}`, true, playerAtSpike == null ? null : [playerAtSpike.user]);
