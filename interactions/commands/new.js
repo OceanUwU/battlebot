@@ -15,7 +15,8 @@ module.exports = {
             return interaction.reply({content: 'You must have the Manage Server permission or own the thread the command is being used in to use this command.', ephemeral: true});
 
         //create start button
-        await interaction.reply({content: 'New game created!\nStart it here (only mods may use these):', components: [
+        await interaction.deferReply();
+        await interaction.editReply({content: 'New game created!\nStart it here (only mods may use these):', components: [
             new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
